@@ -55,6 +55,7 @@ export const battleReducer = (optionalOldState: Battle | undefined, action: Batt
           }
         : {
             ...oldState.monster,
+            lastHit: 0,
             dice1: action.monster1,
             dice2: action.monster2,
           };
@@ -69,6 +70,7 @@ export const battleReducer = (optionalOldState: Battle | undefined, action: Batt
           }
         : {
             ...oldState.player,
+            lastHit: 0,
             dice1: action.player1,
             dice2: action.player2,
           };

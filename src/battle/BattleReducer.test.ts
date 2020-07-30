@@ -114,7 +114,7 @@ describe('Each roll may cost some health', () => {
 
       test('monster health stays the same, since it was hit last time', () => {
         expect(stateAfterSecondRoll.monster.health).toEqual(94);
-        expect(stateAfterSecondRoll.monster.lastHit).toEqual(6);
+        expect(stateAfterSecondRoll.monster.lastHit).toEqual(0);
       });
     });
   });
@@ -200,5 +200,26 @@ describe('Stores last rolled dice in the state', () => {
     expect(finalState.player.dice2).toBe(2);
     expect(finalState.monster.dice1).toBe(3);
     expect(finalState.monster.dice2).toBe(4);
+  });
+});
+
+describe('Forgets last hit on next roll', () => {
+  const state: Battle = {
+    player: { health: 90, lastHit: 10 },
+    monster: { health: 100, lastHit: 0 },
+    battleInProgress: true,
+  };
+  const action: BattleAction = {
+    actionType: 'DiceRolled',
+    player1: 6,
+    player2: 6,
+    monster1: 3,
+    monster2: 4,
+  };
+
+  const finalState = battleReducer(state, action);
+
+  test('player forgets its last hit', () => {
+    expect(finalState.player.lastHit).toBe(0);
   });
 });
