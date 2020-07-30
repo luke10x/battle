@@ -55,10 +55,12 @@ export const battleReducer = (optionalOldState: Battle | undefined, action: Batt
           }
         : oldState.player;
 
+    const battleInProgress = player.health > 0 && monster.health > 0;
+
     return {
-      ...oldState,
       player,
       monster,
+      battleInProgress,
     };
   }
 

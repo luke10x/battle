@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import each from 'jest-each';
 
-import { battleReducer, BattleAction, Person } from './BattleReducer';
+import { battleReducer, BattleAction, Person, Battle } from './BattleReducer';
 
 describe('Each roll may cost some health', () => {
   describe('When they roll equal', () => {
@@ -107,5 +108,50 @@ describe('Each roll may cost some health', () => {
         expect(stateAfterSecondRoll.monster).toEqual({ health: 94, lastHit: 6 });
       });
     });
+  });
+});
+
+describe('Detects when game is ended', () => {
+  describe('after nine big wins', () => {
+    const actions: BattleAction[] = [
+      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
+      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
+      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
+
+      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
+      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
+      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
+
+      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
+      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
+      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
+    ];
+
+    // @ts-ignore
+    const finalState = actions.reduce(battleReducer, undefined);
+
+    expect(finalState?.battleInProgress).toBeTruthy();
+  });
+  describe('after ten big wins', () => {
+    const actions: BattleAction[] = [
+      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
+      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
+      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
+
+      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
+      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
+      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
+
+      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
+      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
+      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
+
+      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
+    ];
+
+    // @ts-ignore
+    const finalState = actions.reduce(battleReducer, undefined);
+
+    expect(finalState?.battleInProgress).toBeFalsy();
   });
 });
