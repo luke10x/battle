@@ -85,8 +85,8 @@ export const BattleComponent: React.FC = () => {
 
   const rollButton = state?.battleInProgress && !rolling;
   const resetButton = !state?.battleInProgress;
-  const won = state?.monster.health == 0;
-  const lost = state?.player.health == 0;
+  const won = state?.monster.health === 0;
+  const lost = state?.player.health === 0;
   return (
     <Wrapper>
       {state && (
@@ -95,8 +95,10 @@ export const BattleComponent: React.FC = () => {
             <div className="nameCard">
               <div>PLAYER</div>
               <div>
-                🖤 {state.player.health}&nbsp;
-                <DamageComponent value={state.player.lastHit} rolling={rolling} />
+                <span role="img" aria-label="health">
+                  🖤
+                </span>{' '}
+                {state.player.health} <DamageComponent value={state.player.lastHit} rolling={rolling} />
               </div>
             </div>
             <div className="dice">
@@ -108,8 +110,10 @@ export const BattleComponent: React.FC = () => {
             <div className="nameCard">
               <div>MONSTER</div>
               <div>
-                🖤 {state.monster.health}&nbsp;
-                <DamageComponent value={state.monster.lastHit} rolling={rolling} />
+                <span role="img" aria-label="health">
+                  🖤
+                </span>{' '}
+                {state.monster.health} <DamageComponent value={state.monster.lastHit} rolling={rolling} />
               </div>
             </div>
             <div className="dice">
