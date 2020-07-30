@@ -1,6 +1,6 @@
 import each from 'jest-each';
 
-import { battleReducer, BattleAction } from './BattleReducer';
+import { battleReducer, BattleAction, Person } from './BattleReducer';
 
 describe('Each roll may cost some health', () => {
   describe('When they roll equal', () => {
@@ -22,22 +22,26 @@ describe('Each roll may cost some health', () => {
     });
   });
 
-  each([
-    {
+  describe('When monster rolls higher than player (%#', () => {
+    const diceRolledAction: BattleAction = {
       actionType: 'DiceRolled',
       player1: 1,
       player2: 1,
       monster1: 5,
       monster2: 5,
-    },
-  ]).describe('When monster rolls higher than player (%#', (diceRolledAction: BattleAction) => {
-    const stateAfterFirstRoll = battleReducer(undefined, diceRolledAction);
+    };
+    each([[diceRolledAction, { health: 92, lastHit: 8 }]]).test(
+      'Player health is hit',
+      (diceRolledAction: BattleAction, result: Person) => {
+        const stateAfterFirstRoll = battleReducer(undefined, diceRolledAction);
 
-    test('Player health is hit', () => {
-      expect(stateAfterFirstRoll.player).toEqual({ health: 92, lastHit: 8 });
-    });
+        expect(stateAfterFirstRoll.player).toEqual(result);
+      },
+    );
 
     test('Monster health stays same', () => {
+      const stateAfterFirstRoll = battleReducer(undefined, diceRolledAction);
+
       expect(stateAfterFirstRoll.monster).toEqual({ health: 100, lastHit: 0 });
     });
   });

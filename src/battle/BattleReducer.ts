@@ -1,4 +1,4 @@
-interface Person {
+export interface Person {
   health: number;
   lastHit: number;
 }
