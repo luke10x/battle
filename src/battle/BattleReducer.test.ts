@@ -15,11 +15,13 @@ describe('Each roll may cost some health', () => {
     const stateAfterEqualRoll = battleReducer(undefined, diceRolledAction);
 
     test('player health stays the same', () => {
-      expect(stateAfterEqualRoll.player).toEqual({ health: 100, lastHit: 0 });
+      expect(stateAfterEqualRoll.player.health).toEqual(100);
+      expect(stateAfterEqualRoll.player.lastHit).toEqual(0);
     });
 
     test('monster health stays the same', () => {
-      expect(stateAfterEqualRoll.player).toEqual({ health: 100, lastHit: 0 });
+      expect(stateAfterEqualRoll.player.health).toEqual(100);
+      expect(stateAfterEqualRoll.player.lastHit).toEqual(0);
     });
   });
 
@@ -52,7 +54,8 @@ describe('Each roll may cost some health', () => {
     test('Monster health stays same', () => {
       const stateAfterFirstRoll = battleReducer(undefined, diceRolledAction);
 
-      expect(stateAfterFirstRoll.monster).toEqual({ health: 100, lastHit: 0 });
+      expect(stateAfterFirstRoll.monster.health).toEqual(100);
+      expect(stateAfterFirstRoll.monster.lastHit).toEqual(0);
     });
   });
 
@@ -67,10 +70,12 @@ describe('Each roll may cost some health', () => {
     const stateAfterFirstRoll = battleReducer(undefined, diceRolledAction);
 
     test('player health stays the same', () => {
-      expect(stateAfterFirstRoll.player).toEqual({ health: 100, lastHit: 0 });
+      expect(stateAfterFirstRoll.player.health).toEqual(100);
+      expect(stateAfterFirstRoll.player.lastHit).toEqual(0);
     });
     test('monster health is hit', () => {
-      expect(stateAfterFirstRoll.monster).toEqual({ health: 94, lastHit: 6 });
+      expect(stateAfterFirstRoll.monster.health).toEqual(94);
+      expect(stateAfterFirstRoll.monster.lastHit).toEqual(6);
     });
 
     describe('When player rolls higher than monster again (this time much higher)', () => {
@@ -85,10 +90,12 @@ describe('Each roll may cost some health', () => {
       const stateAfterSecondRoll = battleReducer(stateAfterFirstRoll, diceRolledAction);
 
       test('player health stays the same still', () => {
-        expect(stateAfterSecondRoll.player).toEqual({ health: 100, lastHit: 0 });
+        expect(stateAfterSecondRoll.player.health).toEqual(100);
+        expect(stateAfterSecondRoll.player.lastHit).toEqual(0);
       });
       test('monster health is hit even more', () => {
-        expect(stateAfterSecondRoll.monster).toEqual({ health: 84, lastHit: 10 });
+        expect(stateAfterSecondRoll.monster.health).toEqual(84);
+        expect(stateAfterSecondRoll.monster.lastHit).toEqual(10);
       });
     });
     describe('Revenge: When monster rolls higher than player', () => {
@@ -101,11 +108,13 @@ describe('Each roll may cost some health', () => {
       };
       const stateAfterSecondRoll = battleReducer(stateAfterFirstRoll, diceRolledAction);
       test('player health is hit this time', () => {
-        expect(stateAfterSecondRoll.player).toEqual({ health: 97, lastHit: 3 });
+        expect(stateAfterSecondRoll.player.health).toEqual(97);
+        expect(stateAfterSecondRoll.player.lastHit).toEqual(3);
       });
 
       test('monster health stays the same, since it was hit last time', () => {
-        expect(stateAfterSecondRoll.monster).toEqual({ health: 94, lastHit: 6 });
+        expect(stateAfterSecondRoll.monster.health).toEqual(94);
+        expect(stateAfterSecondRoll.monster.lastHit).toEqual(6);
       });
     });
   });
@@ -172,5 +181,24 @@ describe('Cannot go lower than zero health', () => {
 
   test('Monster health stays at least zero', () => {
     expect(finalState?.monster.health).toBe(0);
+  });
+});
+
+describe('Stores last rolled dice in the state', () => {
+  const action: BattleAction = {
+    actionType: 'DiceRolled',
+    player1: 1,
+    player2: 2,
+    monster1: 3,
+    monster2: 4,
+  };
+
+  const finalState = battleReducer(undefined, action);
+
+  test('Persons keep rolled dice', () => {
+    expect(finalState.player.dice1).toBe(1);
+    expect(finalState.player.dice2).toBe(2);
+    expect(finalState.monster.dice1).toBe(3);
+    expect(finalState.monster.dice2).toBe(4);
   });
 });
