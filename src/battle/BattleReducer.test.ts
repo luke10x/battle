@@ -113,19 +113,13 @@ describe('Each roll may cost some health', () => {
 
 describe('Detects when game is ended', () => {
   describe('after nine big wins', () => {
-    const actions: BattleAction[] = [
-      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
-      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
-      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
-
-      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
-      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
-      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
-
-      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
-      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
-      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
-    ];
+    const actions: BattleAction[] = Array(9).fill({
+      actionType: 'DiceRolled',
+      player1: 6,
+      player2: 6,
+      monster1: 1,
+      monster2: 1,
+    });
 
     // @ts-ignore
     const finalState = actions.reduce(battleReducer, undefined);
@@ -133,21 +127,13 @@ describe('Detects when game is ended', () => {
     expect(finalState?.battleInProgress).toBeTruthy();
   });
   describe('after ten big wins', () => {
-    const actions: BattleAction[] = [
-      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
-      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
-      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
-
-      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
-      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
-      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
-
-      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
-      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
-      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
-
-      { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
-    ];
+    const actions: BattleAction[] = Array(10).fill({
+      actionType: 'DiceRolled',
+      player1: 6,
+      player2: 6,
+      monster1: 1,
+      monster2: 1,
+    });
 
     // @ts-ignore
     const finalState = actions.reduce(battleReducer, undefined);
@@ -165,7 +151,26 @@ describe('Resets battle state', () => {
   // @ts-ignore
   const finalState = actions.reduce(battleReducer, undefined);
 
-  expect(finalState?.battleInProgress).toBeTruthy();
-  expect(finalState?.player.health).toBe(100);
-  expect(finalState?.monster.health).toBe(100);
+  test('It is back to initial state', () => {
+    expect(finalState?.battleInProgress).toBeTruthy();
+    expect(finalState?.player.health).toBe(100);
+    expect(finalState?.monster.health).toBe(100);
+  });
+});
+
+describe('Cannot go lower than zero health', () => {
+  const actions: BattleAction[] = Array(12).fill({
+    actionType: 'DiceRolled',
+    player1: 6,
+    player2: 5,
+    monster1: 1,
+    monster2: 1,
+  });
+
+  // @ts-ignore
+  const finalState = actions.reduce(battleReducer, undefined);
+
+  test('Monster health stays at least zero', () => {
+    expect(finalState?.monster.health).toBe(0);
+  });
 });
