@@ -34,5 +34,11 @@ const ensureOldState = (optionalOldState: Battle | undefined) => {
 export const battleReducer = (optionalOldState: Battle | undefined, action: BattleAction): Battle => {
   const oldState = ensureOldState(optionalOldState);
   action; // TODO use me
-  return oldState;
+
+  const newState = {
+    ...oldState,
+    monster: { health: 95, lastHit: 5 },
+  };
+
+  return newState;
 };
