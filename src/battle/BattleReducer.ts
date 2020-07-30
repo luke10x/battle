@@ -35,10 +35,18 @@ export const battleReducer = (optionalOldState: Battle | undefined, action: Batt
   const oldState = ensureOldState(optionalOldState);
   action; // TODO use me
 
-  const newState = {
-    ...oldState,
-    monster: { health: 95, lastHit: 5 },
-  };
 
-  return newState;
+  if (action.actionType === 'DiceRolled') {
+    const playerScore = action.player1 + action.player2;
+    const monsterScore = action.monster1 + action.monster2;
+
+    if (playerScore > monsterScore) {
+      return {
+        ...oldState,
+        monster: { health: 95, lastHit: 5 },
+      };
+    }
+  }
+
+  return oldState;
 };

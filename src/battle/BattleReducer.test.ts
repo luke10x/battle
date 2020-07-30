@@ -19,6 +19,21 @@ describe('Each roll may cost some health', () => {
       expect(stateAfterEqualRoll.player).toEqual({ health: 100, lastHit: 0 });
     });
   });
+  describe('When monster rolls higher than player', () => {
+    const diceRolledAction: BattleAction = {
+      actionType: 'DiceRolled',
+      player1: 1,
+      player2: 1,
+      monster1: 5,
+      monster2: 5,
+    };
+    const stateAfterFirstRoll = battleReducer(undefined, diceRolledAction);
+
+    test.todo('Player health takes a hit');
+    test('Monster health stays same', () => {
+      expect(stateAfterFirstRoll.monster).toEqual({ health: 100, lastHit: 0 });
+    });
+  });
 
   describe('When player rolls higher than monster', () => {
     const diceRolledAction: BattleAction = {
@@ -61,11 +76,10 @@ describe('Each roll may cost some health', () => {
         monster2: 2,
       };
       const stateAfterSecondRoll = battleReducer(stateAfterFirstRoll, diceRolledAction);
-
       test.todo('player health is hit this time');
 
       test('monster health stays the same, since it was hit last time', () => {
-        expect(stateAfterSecondRoll.player).toEqual({ health: 100, lastHit: 0 });
+        expect(stateAfterSecondRoll.monster).toEqual({ health: 95, lastHit: 5 });
       });
     });
   });
