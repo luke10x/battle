@@ -1,10 +1,49 @@
 import React, { useReducer, useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 import { battleReducer, BattleAction, DiceRoll } from './BattleReducer';
 
 import { DiceComponent } from './DiceComponent';
 import { DamageComponent } from './DamageComponent';
-import styled from 'styled-components';
+
+const Wrapper = styled.div`
+margin: 1em;
+font-size: 2em;
+.container {
+  display: flex;
+  .item {
+    flex-grow: 1;
+    height: 100px;
+    .nameCard {
+      border: 5px dotted black;
+      width: 200px;
+      margin: 0px auto;
+      text-align: left;
+      padding: 1em;
+    }
+  }
+  .item + .item {
+    margin-left: 2%;
+  }
+}
+button {
+  border: 5px solid black;
+  padding 2em;
+  font-size: 1em;
+}
+.dice {
+  font-size: 3em;
+}
+.banner {
+  font-size: 2em;
+}
+.won {
+  color: green;
+}
+.lost {
+  color: red;
+}
+`;
 
 const getRandom = (): DiceRoll => {
   return (Math.floor(Math.random() * 6) + 1) as DiceRoll;
@@ -43,48 +82,6 @@ export const BattleComponent: React.FC = () => {
       dispatch({ actionType: 'Reset' });
     }
   });
-
-  const Wrapper = styled.div`
-    margin: 1em;
-    font-size: 2em;
-    .container {
-      display: flex;
-
-      .item {
-        flex-grow: 1;
-        height: 100px;
-        .nameCard {
-          border: 5px dotted black;
-          width: 200px;
-          margin: 0px auto;
-          text-align: left;
-          padding: 1em;
-        }
-      }
-
-      .item + .item {
-        margin-left: 2%;
-      }
-    }
-    button {
-      border: 5px solid black;
-      padding 2em;
-      font-size: 1em;
-    }
-    .dice {
-      font-size: 3em;
-    }
-    .banner {
-      font-size: 2em;
-    }
-    .won {
-      color: green;
-    }
-    .lost {
-      color: red;
-    }
-
-  `;
 
   const rollButton = state?.battleInProgress && !rolling;
   const resetButton = !state?.battleInProgress;

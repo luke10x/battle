@@ -15,6 +15,7 @@ const rotate = keyframes`
     opacity: 0;
   }
 `;
+
 const StyledSpan = styled.span`
   color: red;
   opacity: 0;

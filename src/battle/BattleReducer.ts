@@ -26,8 +26,8 @@ export type BattleAction =
 const ensureBattleState = (optionalOldState: Battle | undefined) => {
   return optionalOldState === undefined
     ? {
-        player: { health: 15, lastHit: 0 },
-        monster: { health: 15, lastHit: 0 },
+        player: { health: 100, lastHit: 0 },
+        monster: { health: 100, lastHit: 0 },
         battleInProgress: true,
       }
     : optionalOldState;
