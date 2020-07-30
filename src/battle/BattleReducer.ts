@@ -3,7 +3,7 @@ export interface Person {
   lastHit: number;
 }
 
-interface Battle {
+export interface Battle {
   player: Person;
   monster: Person;
   battleInProgress: boolean;
@@ -37,31 +37,29 @@ export const battleReducer = (optionalOldState: Battle | undefined, action: Batt
   if (action.actionType === 'DiceRolled') {
     const playerScore = action.player1 + action.player2;
     const monsterScore = action.monster1 + action.monster2;
+    const damage = Math.abs(playerScore - monsterScore);
 
-    if (playerScore > monsterScore) {
-      const damage = playerScore - monsterScore;
-      const monster = {
-        health: oldState.monster.health - damage,
-        lastHit: damage,
-      };
-      return {
-        ...oldState,
-        monster,
-      };
-    }
+    const monster =
+      playerScore > monsterScore
+        ? {
+            health: oldState.monster.health - damage,
+            lastHit: damage,
+          }
+        : oldState.monster;
 
-    if (playerScore < monsterScore) {
-      const damage = monsterScore - playerScore;
-      const player = {
-        health: oldState.player.health - damage,
-        lastHit: damage,
-      };
+    const player =
+      playerScore < monsterScore
+        ? {
+            health: oldState.player.health - damage,
+            lastHit: damage,
+          }
+        : oldState.player;
 
-      return {
-        ...oldState,
-        player,
-      };
-    }
+    return {
+      ...oldState,
+      player,
+      monster,
+    };
   }
 
   return oldState;
