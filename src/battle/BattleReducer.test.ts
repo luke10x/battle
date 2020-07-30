@@ -155,3 +155,17 @@ describe('Detects when game is ended', () => {
     expect(finalState?.battleInProgress).toBeFalsy();
   });
 });
+
+describe('Resets battle state', () => {
+  const actions: BattleAction[] = [
+    { actionType: 'DiceRolled', player1: 6, player2: 6, monster1: 1, monster2: 1 },
+    { actionType: 'Reset' },
+  ];
+
+  // @ts-ignore
+  const finalState = actions.reduce(battleReducer, undefined);
+
+  expect(finalState?.battleInProgress).toBeTruthy();
+  expect(finalState?.player.health).toBe(100);
+  expect(finalState?.monster.health).toBe(100);
+});
