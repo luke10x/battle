@@ -80,12 +80,15 @@ describe('Each roll may cost some health', () => {
         monster1: 1,
         monster2: 1,
       };
+
       const stateAfterSecondRoll = battleReducer(stateAfterFirstRoll, diceRolledAction);
 
       test('player health stays the same still', () => {
         expect(stateAfterSecondRoll.player).toEqual({ health: 100, lastHit: 0 });
       });
-      test.todo('monster health is hit even more');
+      test('monster health is hit even more', () => {
+        expect(stateAfterSecondRoll.monster).toEqual({ health: 84, lastHit: 10 });
+      });
     });
     describe('Revenge: When monster rolls higher than player', () => {
       const diceRolledAction: BattleAction = {

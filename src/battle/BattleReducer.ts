@@ -41,7 +41,7 @@ export const battleReducer = (optionalOldState: Battle | undefined, action: Batt
     if (playerScore > monsterScore) {
       const damage = playerScore - monsterScore;
       const monster = {
-        health: oldState.player.health - damage,
+        health: oldState.monster.health - damage,
         lastHit: damage,
       };
       return {
