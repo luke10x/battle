@@ -1,6 +1,8 @@
 export interface Person {
   health: number;
   lastHit: number;
+  dice1?: DiceRoll;
+  dice2?: DiceRoll;
 }
 
 export interface Battle {
@@ -9,7 +11,7 @@ export interface Battle {
   battleInProgress: boolean;
 }
 
-type DiceRoll = 1 | 2 | 3 | 4 | 5 | 6;
+export type DiceRoll = 1 | 2 | 3 | 4 | 5 | 6;
 
 export type BattleAction =
   | {
@@ -48,16 +50,28 @@ export const battleReducer = (optionalOldState: Battle | undefined, action: Batt
         ? {
             health: Math.max(0, oldState.monster.health - damage),
             lastHit: damage,
+            dice1: action.monster1,
+            dice2: action.monster2,
           }
-        : oldState.monster;
+        : {
+            ...oldState.monster,
+            dice1: action.monster1,
+            dice2: action.monster2,
+          };
 
     const player =
       playerScore < monsterScore
         ? {
             health: Math.max(0, oldState.player.health - damage),
             lastHit: damage,
+            dice1: action.player1,
+            dice2: action.player2,
           }
-        : oldState.player;
+        : {
+            ...oldState.player,
+            dice1: action.player1,
+            dice2: action.player2,
+          };
 
     const battleInProgress = player.health > 0 && monster.health > 0;
 
