@@ -99,7 +99,9 @@ describe('Each roll may cost some health', () => {
         monster2: 2,
       };
       const stateAfterSecondRoll = battleReducer(stateAfterFirstRoll, diceRolledAction);
-      test.todo('player health is hit this time');
+      test('player health is hit this time', () => {
+        expect(stateAfterSecondRoll.player).toEqual({ health: 97, lastHit: 3 });
+      });
 
       test('monster health stays the same, since it was hit last time', () => {
         expect(stateAfterSecondRoll.monster).toEqual({ health: 94, lastHit: 6 });
