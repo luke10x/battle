@@ -1,7 +1,7 @@
 import React, { useReducer, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { battleReducer, BattleAction, DiceRoll } from './BattleReducer';
+import { battleReducer, BattleAction, DiceRoll, Battle } from './BattleReducer';
 
 import { DiceComponent } from './DiceComponent';
 import { DamageComponent } from './DamageComponent';
@@ -50,9 +50,7 @@ const getRandom = (): DiceRoll => {
 };
 
 export const BattleComponent: React.FC = () => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const [state, dispatch] = useReducer(battleReducer, undefined);
+  const [state, dispatch] = useReducer<React.Reducer<Battle | undefined, BattleAction>>(battleReducer, undefined);
   const [rolling, setRolling] = useState(false);
   const [round, setRound] = useState(0);
 
