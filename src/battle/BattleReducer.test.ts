@@ -1,6 +1,4 @@
-// import each from 'jest-each';
-
-import { battleReducer, BattleAction, Person, Battle } from './BattleReducer';
+import { battleReducer, BattleAction, Battle } from './BattleReducer';
 
 describe('Each roll may cost some health', () => {
   describe('When they roll equal', () => {
