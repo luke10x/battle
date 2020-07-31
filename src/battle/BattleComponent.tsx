@@ -52,13 +52,9 @@ const getRandom = (): DiceRoll => {
 export const BattleComponent: React.FC = () => {
   const [state, dispatch] = useReducer<React.Reducer<Battle | undefined, BattleAction>>(battleReducer, undefined);
   const [rolling, setRolling] = useState(false);
-  const [round, setRound] = useState(0);
 
   const handleRoll = () => {
-    console.log('roll', state);
     setRolling(true);
-    setRound(round + 1);
-
     setTimeout(() => {
       const action: BattleAction = {
         actionType: 'DiceRolled',
@@ -75,6 +71,7 @@ export const BattleComponent: React.FC = () => {
   const handleReset = () => {
     dispatch({ actionType: 'Reset' });
   };
+
   useEffect(() => {
     if (!state) {
       dispatch({ actionType: 'Reset' });
