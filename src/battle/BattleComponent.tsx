@@ -97,8 +97,8 @@ export const BattleComponent: React.FC = () => {
               </div>
             </div>
             <div className="dice">
-              <DiceComponent rolling={rolling} value={state.player.dice1} />
-              <DiceComponent rolling={rolling} value={state.player.dice2} />
+              <DiceComponent rolling={rolling} lastRolled={state.player.dice1} />
+              <DiceComponent rolling={rolling} lastRolled={state.player.dice2} />
             </div>
           </div>
           <div className="item">
@@ -112,8 +112,8 @@ export const BattleComponent: React.FC = () => {
               </div>
             </div>
             <div className="dice">
-              <DiceComponent rolling={rolling} value={state.monster.dice1} />
-              <DiceComponent rolling={rolling} value={state.monster.dice2} />
+              <DiceComponent rolling={rolling} lastRolled={state.monster.dice1} />
+              <DiceComponent rolling={rolling} lastRolled={state.monster.dice2} />
             </div>
           </div>
         </div>

@@ -4,7 +4,7 @@ import React from 'react';
 
 interface DiceComponentProps {
   rolling: boolean;
-  value: DiceRoll;
+  lastRolled: DiceRoll | undefined;
 }
 
 export const numberToDiceRoll = (num: number): DiceRoll => {
@@ -37,5 +37,8 @@ export const DiceComponent: React.FC<DiceComponentProps> = (props: DiceComponent
   if (props.rolling) {
     return <span>{getDiceChar(dice)}</span>;
   }
-  return <span>{getDiceChar(props.value)}</span>;
+  if (props.lastRolled === undefined) {
+    return <span> </span>;
+  }
+  return <span>{getDiceChar(props.lastRolled)}</span>;
 };
