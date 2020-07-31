@@ -7,42 +7,57 @@ import { DiceComponent } from './DiceComponent';
 import { DamageComponent } from './DamageComponent';
 
 const Wrapper = styled.div`
-margin: 1em;
-font-size: 2em;
-.container {
+  font-size: 2em;
+  height: 100%;
+
   display: flex;
-  .item {
-    flex-grow: 1;
-    height: 100px;
-    .nameCard {
-      border: 5px dotted black;
-      width: 200px;
-      margin: 0px auto;
-      text-align: left;
-      padding: 1em;
+  flex-direction: column;
+  .container {
+    padding-top: 1em;
+    display: flex;
+
+    // also is an item in an outermost flex:
+    flex: 1 0 auto;
+
+    .item {
+      flex-grow: 1;
+      height: 100px;
+      .nameCard {
+        border: 5px dotted black;
+        width: 200px;
+        margin: 0px auto;
+        text-align: left;
+        padding: 1em;
+      }
+      .dice {
+        text-align: center;
+        margin: 0px auto;
+        font-size: 3em;
+      }
+    }
+    .item + .item {
+      margin-left: 2%;
     }
   }
-  .item + .item {
-    margin-left: 2%;
+  .banner {
+    font-size: 3em;
   }
-}
-button {
-  border: 5px solid black;
-  padding 2em;
-  font-size: 1em;
-}
-.dice {
-  font-size: 3em;
-}
-.banner {
-  font-size: 2em;
-}
-.won {
-  color: green;
-}
-.lost {
-  color: red;
-}
+  .won {
+    color: green;
+  }
+  .lost {
+    color: red;
+  }
+  .footer {
+    flex-shrink: 0;
+    button {
+      border: 5px solid black;
+      margin: 1em;
+      padding: 1em;
+      font-size: 1em;
+      background: pink;
+    }
+  }
 `;
 
 const getRandom = (): DiceRoll => {
@@ -118,10 +133,12 @@ export const BattleComponent: React.FC = () => {
           </div>
         </div>
       )}
-      {won && <div className="banner won">PLAYER WON</div>}
-      {lost && <div className="banner lost">PLAYER LOST</div>}
-      {rollButton && <button onClick={handleRoll}>Roll!</button>}
-      {resetButton && <button onClick={handleReset}>Reset</button>}
+      <div className="footer">
+        {won && <div className="banner won">PLAYER WON</div>}
+        {lost && <div className="banner lost">PLAYER LOST</div>}
+        {rollButton && <button onClick={handleRoll}>Roll!</button>}
+        {resetButton && <button onClick={handleReset}>Reset</button>}
+      </div>
     </Wrapper>
   );
 };
