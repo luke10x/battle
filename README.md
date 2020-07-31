@@ -1,44 +1,59 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 ## Available Scripts
 
-In the project directory, you can run:
+After clonning the repository you can run
 
-### `yarn start`
+### `make up install up logs`
 
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Later you can run just:
 
-### `yarn test`
+### `make up logs`
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+This will just start the project, without installing dependencies
 
-### `yarn build`
+### To run tests:
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+	make into
+	npm tests
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+You should see something like:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+	 PASS  src/battle/BattleReducer.test.ts
+	  Each roll may cost some health                                                                                                                                            
+	    When they roll equal
+	      ✓ player health stays the same (11ms)
+	      ✓ monster health stays the same (3ms)
+	    When monster rolls higher than player (%#
+	      ✓ Player health is hit (3ms)
+	      ✓ Player health is hit (3ms)
+	      ✓ Monster health stays same (3ms)
+	    When player rolls higher than monster
+	      ✓ player health stays the same (3ms)
+	      ✓ monster health is hit (3ms)
+	      When player rolls higher than monster again (this time much higher)
+		✓ player health stays the same still (3ms)
+		✓ monster health is hit even more (4ms)
+	      Revenge: When monster rolls higher than player
+		✓ player health is hit this time (2ms)
+		✓ monster health stays the same, since it was hit last time (1ms)
+	  Resets battle state
+	    ✓ It is back to initial state (4ms)
+	  Cannot go lower than zero health
+	    ✓ Monster health stays at least zero (2ms)
+	  Stores last rolled dice in the state
+	    ✓ Persons keep rolled dice (4ms)
+	  Forgets last hit on next roll
+	    ✓ player forgets its last hit (2ms)
 
-### `yarn eject`
+	 PASS  src/App.test.tsx (6.202s)
+	  ✓ renders learn react link (222ms)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+	Test Suites: 2 passed, 2 total
+	Tests:       16 passed, 16 total
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- This app is deployed on [Heroku](https://hidden-taiga-69915.herokuapp.com/).
+- There are more links on my web page [luke10x.dev](https://luke10x.dev/).
