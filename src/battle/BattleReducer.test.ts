@@ -130,6 +130,7 @@ describe('Detects when game is ended', () => {
       monster2: 1,
     });
 
+    /* eslint-disable @typescript-eslint/ban-ts-comment */
     // @ts-ignore
     const finalState = actions.reduce(battleReducer, undefined);
 

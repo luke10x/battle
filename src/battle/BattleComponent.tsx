@@ -6,41 +6,62 @@ import { battleReducer, BattleAction, DiceRoll, Battle } from './BattleReducer';
 import { DiceComponent } from './DiceComponent';
 import { DamageComponent } from './DamageComponent';
 
+const breakpointSmall = '620px';
 const Wrapper = styled.div`
   font-size: 2em;
   height: 100%;
 
   display: flex;
   flex-direction: column;
-  .container {
-    padding-top: 1em;
+
+  .content {
+    flex: 1 1;
+
     display: flex;
+    justify-content: space-around;
+    @media (max-width: ${breakpointSmall}) {
+      flex-direction: column;
+      justify-content: flex-start;
+    }
 
-    // also is an item in an outermost flex:
-    flex: 1 0 auto;
+    .player {
+      flex: 0 1 250px;
+      margin: 10pt;
 
-    .item {
-      flex-grow: 1;
-      height: 100px;
+      display: flex;
+      flex-direction: column;
+      @media (max-width: ${breakpointSmall}) {
+        flex: 0 1;
+        border: 5px dotted black;
+
+        flex-direction: row;
+      }
       .nameCard {
         border: 5px dotted black;
-        width: 200px;
-        margin: 0px auto;
         text-align: left;
-        padding: 1em;
+        padding: 20pt;
+
+        @media (max-width: ${breakpointSmall}) {
+          flex: 1 0;
+
+          border: 0;
+        }
       }
       .dice {
         text-align: center;
-        margin: 0px auto;
         font-size: 3em;
+
+        display: flex;
+        justify-content: space-around;
+        @media (max-width: ${breakpointSmall}) {
+          flex: 0 0 50pt;
+
+          font-size: 2em;
+          line-height: 0.5em;
+          flex-direction: column;
+        }
       }
     }
-    .item + .item {
-      margin-left: 2%;
-    }
-  }
-  .banner {
-    font-size: 3em;
   }
   .won {
     color: green;
@@ -49,13 +70,27 @@ const Wrapper = styled.div`
     color: red;
   }
   .footer {
-    flex-shrink: 0;
+    flex: 0 1;
+    display: flex;
+    flex-direction: column;
+
+    button,
+    .banner {
+      flex: 1 1 100%;
+
+      margin: 10pt;
+      padding: 20pt;
+      font-size: 1em;
+    }
     button {
       border: 5px solid black;
-      margin: 1em;
-      padding: 1em;
-      font-size: 1em;
       background: pink;
+    }
+    .banner {
+      font-size: 2em;
+      @media (max-width: ${breakpointSmall}) {
+        font-size: 1em;
+      }
     }
   }
 `;
@@ -100,8 +135,8 @@ export const BattleComponent: React.FC = () => {
   return (
     <Wrapper>
       {state && (
-        <div className="container">
-          <div className="item">
+        <div className="content">
+          <div className="player">
             <div className="nameCard">
               <div>PLAYER</div>
               <div>
@@ -116,7 +151,7 @@ export const BattleComponent: React.FC = () => {
               <DiceComponent rolling={rolling} lastRolled={state.player.dice2} />
             </div>
           </div>
-          <div className="item">
+          <div className="player">
             <div className="nameCard">
               <div>MONSTER</div>
               <div>
@@ -134,10 +169,10 @@ export const BattleComponent: React.FC = () => {
         </div>
       )}
       <div className="footer">
+        {resetButton && <button onClick={handleReset}>Reset</button>}
         {won && <div className="banner won">PLAYER WON</div>}
         {lost && <div className="banner lost">PLAYER LOST</div>}
         {rollButton && <button onClick={handleRoll}>Roll!</button>}
-        {resetButton && <button onClick={handleReset}>Reset</button>}
       </div>
     </Wrapper>
   );
