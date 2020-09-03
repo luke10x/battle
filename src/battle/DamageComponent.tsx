@@ -1,10 +1,10 @@
 import React from 'react';
 
 import styled, { keyframes } from 'styled-components';
-import { Person } from './BattleReducer';
+import { Player } from './BattleReducer';
 
 interface DamageComponentProps {
-  player: Person;
+  player: Player;
 }
 
 const rotate = keyframes`

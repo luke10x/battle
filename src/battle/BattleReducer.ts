@@ -1,4 +1,4 @@
-export interface Person {
+export interface Player {
   health: number;
   lastHit: number;
   dice1?: DiceRoll;
@@ -6,8 +6,8 @@ export interface Person {
 }
 
 export interface Battle {
-  human: Person;
-  monster: Person;
+  human: Player;
+  monster: Player;
   battleInProgress: boolean;
 }
 
