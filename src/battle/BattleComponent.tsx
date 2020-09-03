@@ -108,8 +108,8 @@ export const BattleComponent: React.FC = () => {
     setTimeout(() => {
       const action: BattleAction = {
         actionType: 'DiceRolled',
-        player1: getRandom(),
-        player2: getRandom(),
+        human1: getRandom(),
+        human2: getRandom(),
         monster1: getRandom(),
         monster2: getRandom(),
       };
@@ -124,25 +124,25 @@ export const BattleComponent: React.FC = () => {
 
   const rollButton = state?.battleInProgress && !rolling;
   const resetButton = !state?.battleInProgress;
-  const won = state?.monster.health === 0;
-  const lost = state?.player.health === 0;
+  const won = state.monster.health === 0;
+  const lost = state.human.health === 0;
   return (
     <Wrapper>
       {state && (
         <div className="content">
           <div className="player">
             <div className="nameCard">
-              <div>PLAYER</div>
+              <div>HUMAN</div>
               <div>
                 <span role="img" aria-label="health">
                   🖤
                 </span>{' '}
-                {state.player.health} <DamageComponent value={state.player.lastHit} rolling={rolling} />
+                {state.human.health} <DamageComponent value={state.human.lastHit} rolling={rolling} />
               </div>
             </div>
             <div className="dice">
-              <DiceComponent rolling={rolling} lastRolled={state.player.dice1} />
-              <DiceComponent rolling={rolling} lastRolled={state.player.dice2} />
+              <DiceComponent rolling={rolling} lastRolled={state.human.dice1} />
+              <DiceComponent rolling={rolling} lastRolled={state.human.dice2} />
             </div>
           </div>
           <div className="player">

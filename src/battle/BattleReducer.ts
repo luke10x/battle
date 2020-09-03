@@ -6,7 +6,7 @@ export interface Person {
 }
 
 export interface Battle {
-  player: Person;
+  human: Person;
   monster: Person;
   battleInProgress: boolean;
 }
@@ -16,15 +16,15 @@ export type DiceRoll = 1 | 2 | 3 | 4 | 5 | 6;
 export type BattleAction =
   | {
       actionType: 'DiceRolled';
-      player1: DiceRoll;
-      player2: DiceRoll;
+      human1: DiceRoll;
+      human2: DiceRoll;
       monster1: DiceRoll;
       monster2: DiceRoll;
     }
   | { actionType: 'Reset' };
 
 export const initialBattleState = {
-  player: { health: 100, lastHit: 0 },
+  human: { health: 100, lastHit: 0 },
   monster: { health: 100, lastHit: 0 },
   battleInProgress: true,
 };
@@ -35,12 +35,12 @@ export const battleReducer = (oldState: Battle, action: BattleAction): Battle =>
   }
 
   if (action.actionType === 'DiceRolled') {
-    const playerScore = action.player1 + action.player2;
+    const humanScore = action.human1 + action.human2;
     const monsterScore = action.monster1 + action.monster2;
-    const damage = Math.abs(playerScore - monsterScore);
+    const damage = Math.abs(humanScore - monsterScore);
 
     const monster =
-      playerScore > monsterScore
+      humanScore > monsterScore
         ? {
             health: Math.max(0, oldState.monster.health - damage),
             lastHit: damage,
@@ -54,24 +54,24 @@ export const battleReducer = (oldState: Battle, action: BattleAction): Battle =>
             dice2: action.monster2,
           };
 
-    const player =
-      playerScore < monsterScore
+    const human =
+      humanScore < monsterScore
         ? {
-            health: Math.max(0, oldState.player.health - damage),
+            health: Math.max(0, oldState.human.health - damage),
             lastHit: damage,
-            dice1: action.player1,
-            dice2: action.player2,
+            dice1: action.human1,
+            dice2: action.human2,
           }
         : {
-            ...oldState.player,
+            ...oldState.human,
             lastHit: 0,
-            dice1: action.player1,
-            dice2: action.player2,
+            dice1: action.human1,
+            dice2: action.human2,
           };
 
-    const battleInProgress = player.health > 0 && monster.health > 0;
+    const battleInProgress = human.health > 0 && monster.health > 0;
 
-    return { player, monster, battleInProgress };
+    return { human, monster, battleInProgress };
   }
 
   return oldState;
