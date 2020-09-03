@@ -118,7 +118,7 @@ export const BattleComponent: React.FC = () => {
               <span role="img" aria-label="health">
                 🖤
               </span>{' '}
-              {state.human.health} <DamageComponent value={state.human.lastHit} rolling={rolling} />
+              {state.human.health} <DamageComponent player={state.human} />
             </div>
           </div>
           <div className="dice">
@@ -133,7 +133,7 @@ export const BattleComponent: React.FC = () => {
               <span role="img" aria-label="health">
                 🖤
               </span>{' '}
-              {state.monster.health} <DamageComponent value={state.monster.lastHit} rolling={rolling} />
+              {state.monster.health} <DamageComponent player={state.monster} />
             </div>
           </div>
           <div className="dice">

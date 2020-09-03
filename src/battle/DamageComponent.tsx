@@ -1,10 +1,10 @@
 import React from 'react';
 
 import styled, { keyframes } from 'styled-components';
+import { Person } from './BattleReducer';
 
 interface DamageComponentProps {
-  value: number;
-  rolling: boolean;
+  player: Person;
 }
 
 const rotate = keyframes`
@@ -23,9 +23,9 @@ const StyledSpan = styled.span`
 `;
 
 export const DamageComponent: React.FC<DamageComponentProps> = (props: DamageComponentProps) => {
-  if (props.value === 0 || props.rolling) {
+  if (props.player.lastHit === 0) {
     return <></>;
   }
 
-  return <StyledSpan>-{props.value}</StyledSpan>;
+  return <StyledSpan key={props.player.health}>-{props.player.lastHit}</StyledSpan>;
 };
