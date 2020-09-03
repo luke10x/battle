@@ -23,21 +23,15 @@ export type BattleAction =
     }
   | { actionType: 'Reset' };
 
-const ensureBattleState = (optionalOldState: Battle | undefined) => {
-  return optionalOldState === undefined
-    ? {
-        player: { health: 100, lastHit: 0 },
-        monster: { health: 100, lastHit: 0 },
-        battleInProgress: true,
-      }
-    : optionalOldState;
+export const initialBattleState = {
+  player: { health: 100, lastHit: 0 },
+  monster: { health: 100, lastHit: 0 },
+  battleInProgress: true,
 };
 
-export const battleReducer = (optionalOldState: Battle | undefined, action: BattleAction): Battle => {
-  const oldState = ensureBattleState(optionalOldState);
-
+export const battleReducer = (oldState: Battle, action: BattleAction): Battle => {
   if (action.actionType === 'Reset') {
-    return ensureBattleState(undefined);
+    return initialBattleState;
   }
 
   if (action.actionType === 'DiceRolled') {

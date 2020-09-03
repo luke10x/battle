@@ -1,7 +1,7 @@
-import React, { useReducer, useEffect, useState } from 'react';
+import React, { useReducer, useState } from 'react';
 import styled from 'styled-components';
 
-import { battleReducer, BattleAction, DiceRoll, Battle } from './BattleReducer';
+import { battleReducer, BattleAction, DiceRoll, Battle, initialBattleState } from './BattleReducer';
 
 import { DiceComponent } from './DiceComponent';
 import { DamageComponent } from './DamageComponent';
@@ -100,7 +100,7 @@ const getRandom = (): DiceRoll => {
 };
 
 export const BattleComponent: React.FC = () => {
-  const [state, dispatch] = useReducer<React.Reducer<Battle | undefined, BattleAction>>(battleReducer, undefined);
+  const [state, dispatch] = useReducer<React.Reducer<Battle, BattleAction>>(battleReducer, initialBattleState);
   const [rolling, setRolling] = useState(false);
 
   const handleRoll = () => {
@@ -121,12 +121,6 @@ export const BattleComponent: React.FC = () => {
   const handleReset = () => {
     dispatch({ actionType: 'Reset' });
   };
-
-  useEffect(() => {
-    if (!state) {
-      dispatch({ actionType: 'Reset' });
-    }
-  });
 
   const rollButton = state?.battleInProgress && !rolling;
   const resetButton = !state?.battleInProgress;

@@ -1,4 +1,4 @@
-import { battleReducer, BattleAction, Battle } from './BattleReducer';
+import { battleReducer, BattleAction, Battle, initialBattleState } from './BattleReducer';
 
 describe('Each roll may cost some health', () => {
   describe('When they roll equal', () => {
@@ -9,7 +9,7 @@ describe('Each roll may cost some health', () => {
       monster1: 3,
       monster2: 2,
     };
-    const stateAfterEqualRoll = battleReducer(undefined, diceRolledAction);
+    const stateAfterEqualRoll = battleReducer(initialBattleState, diceRolledAction);
 
     test('player health stays the same', () => {
       expect(stateAfterEqualRoll.player.health).toEqual(100);
@@ -45,14 +45,14 @@ describe('Each roll may cost some health', () => {
         1,
       ],
     ])('Player health is hit', (diceRolledAction, expectedHealth, expectedLastHit) => {
-      const stateAfterFirstRoll = battleReducer(undefined, diceRolledAction as BattleAction);
+      const stateAfterFirstRoll = battleReducer(initialBattleState, diceRolledAction as BattleAction);
 
       expect(stateAfterFirstRoll.player.health).toEqual(expectedHealth);
       expect(stateAfterFirstRoll.player.lastHit).toEqual(expectedLastHit);
     });
 
     test('Monster health stays same', () => {
-      const stateAfterFirstRoll = battleReducer(undefined, diceRolledAction);
+      const stateAfterFirstRoll = battleReducer(initialBattleState, diceRolledAction);
 
       expect(stateAfterFirstRoll.monster.health).toEqual(100);
       expect(stateAfterFirstRoll.monster.lastHit).toEqual(0);
@@ -67,7 +67,7 @@ describe('Each roll may cost some health', () => {
       monster1: 3,
       monster2: 2,
     };
-    const stateAfterFirstRoll = battleReducer(undefined, diceRolledAction);
+    const stateAfterFirstRoll = battleReducer(initialBattleState, diceRolledAction);
 
     test('player health stays the same', () => {
       expect(stateAfterFirstRoll.player.health).toEqual(100);
@@ -130,9 +130,7 @@ describe('Detects when game is ended', () => {
       monster2: 1,
     });
 
-    /* eslint-disable @typescript-eslint/ban-ts-comment */
-    // @ts-ignore
-    const finalState = actions.reduce(battleReducer, undefined);
+    const finalState = actions.reduce<Battle>(battleReducer, initialBattleState);
 
     expect(finalState?.battleInProgress).toBeTruthy();
   });
@@ -145,8 +143,7 @@ describe('Detects when game is ended', () => {
       monster2: 1,
     });
 
-    // @ts-ignore
-    const finalState = actions.reduce(battleReducer, undefined);
+    const finalState = actions.reduce<Battle>(battleReducer, initialBattleState);
 
     expect(finalState?.battleInProgress).toBeFalsy();
   });
@@ -158,8 +155,7 @@ describe('Resets battle state', () => {
     { actionType: 'Reset' },
   ];
 
-  // @ts-ignore
-  const finalState = actions.reduce(battleReducer, undefined);
+  const finalState = actions.reduce<Battle>(battleReducer, initialBattleState);
 
   test('It is back to initial state', () => {
     expect(finalState?.battleInProgress).toBeTruthy();
@@ -177,8 +173,7 @@ describe('Cannot go lower than zero health', () => {
     monster2: 1,
   });
 
-  // @ts-ignore
-  const finalState = actions.reduce(battleReducer, undefined);
+  const finalState = actions.reduce<Battle>(battleReducer, initialBattleState);
 
   test('Monster health stays at least zero', () => {
     expect(finalState?.monster.health).toBe(0);
@@ -194,7 +189,7 @@ describe('Stores last rolled dice in the state', () => {
     monster2: 4,
   };
 
-  const finalState = battleReducer(undefined, action);
+  const finalState = battleReducer(initialBattleState, action);
 
   test('Persons keep rolled dice', () => {
     expect(finalState.player.dice1).toBe(1);
