@@ -12,12 +12,12 @@ describe('Each roll may cost some health', () => {
     const stateAfterEqualRoll = battleReducer(initialBattleState, diceRolledAction);
 
     test('human health stays the same', () => {
-      expect(stateAfterEqualRoll.human.health).toEqual(100);
+      expect(stateAfterEqualRoll.human.health).toEqual(10);
       expect(stateAfterEqualRoll.human.lastHit).toEqual(0);
     });
 
     test('monster health stays the same', () => {
-      expect(stateAfterEqualRoll.human.health).toEqual(100);
+      expect(stateAfterEqualRoll.human.health).toEqual(10);
       expect(stateAfterEqualRoll.human.lastHit).toEqual(0);
     });
   });
@@ -32,7 +32,7 @@ describe('Each roll may cost some health', () => {
     };
 
     test.each([
-      [diceRolledAction, 92, 8],
+      [diceRolledAction, 2, 8],
       [
         {
           actionType: 'DiceRolled',
@@ -41,7 +41,7 @@ describe('Each roll may cost some health', () => {
           monster1: 5,
           monster2: 5,
         },
-        99,
+        9,
         1,
       ],
     ])('human health is hit', (diceRolledAction, expectedHealth, expectedLastHit) => {
@@ -54,7 +54,7 @@ describe('Each roll may cost some health', () => {
     test('Monster health stays same', () => {
       const stateAfterFirstRoll = battleReducer(initialBattleState, diceRolledAction);
 
-      expect(stateAfterFirstRoll.monster.health).toEqual(100);
+      expect(stateAfterFirstRoll.monster.health).toEqual(10);
       expect(stateAfterFirstRoll.monster.lastHit).toEqual(0);
     });
   });
@@ -64,18 +64,18 @@ describe('Each roll may cost some health', () => {
       actionType: 'DiceRolled',
       human1: 6,
       human2: 5,
-      monster1: 3,
-      monster2: 2,
+      monster1: 5,
+      monster2: 4,
     };
     const stateAfterFirstRoll = battleReducer(initialBattleState, diceRolledAction);
 
     test('human health stays the same', () => {
-      expect(stateAfterFirstRoll.human.health).toEqual(100);
+      expect(stateAfterFirstRoll.human.health).toEqual(10);
       expect(stateAfterFirstRoll.human.lastHit).toEqual(0);
     });
     test('monster health is hit', () => {
-      expect(stateAfterFirstRoll.monster.health).toEqual(94);
-      expect(stateAfterFirstRoll.monster.lastHit).toEqual(6);
+      expect(stateAfterFirstRoll.monster.health).toEqual(8);
+      expect(stateAfterFirstRoll.monster.lastHit).toEqual(2);
     });
 
     describe('When human rolls higher than monster again (this time much higher)', () => {
@@ -83,19 +83,19 @@ describe('Each roll may cost some health', () => {
         actionType: 'DiceRolled',
         human1: 6,
         human2: 6,
-        monster1: 1,
-        monster2: 1,
+        monster1: 3,
+        monster2: 3,
       };
 
       const stateAfterSecondRoll = battleReducer(stateAfterFirstRoll, diceRolledAction);
 
       test('human health stays the same still', () => {
-        expect(stateAfterSecondRoll.human.health).toEqual(100);
+        expect(stateAfterSecondRoll.human.health).toEqual(10);
         expect(stateAfterSecondRoll.human.lastHit).toEqual(0);
       });
       test('monster health is hit even more', () => {
-        expect(stateAfterSecondRoll.monster.health).toEqual(84);
-        expect(stateAfterSecondRoll.monster.lastHit).toEqual(10);
+        expect(stateAfterSecondRoll.monster.health).toEqual(2);
+        expect(stateAfterSecondRoll.monster.lastHit).toEqual(6);
       });
     });
     describe('Revenge: When monster rolls higher than human', () => {
@@ -108,12 +108,12 @@ describe('Each roll may cost some health', () => {
       };
       const stateAfterSecondRoll = battleReducer(stateAfterFirstRoll, diceRolledAction);
       test('human health is hit this time', () => {
-        expect(stateAfterSecondRoll.human.health).toEqual(97);
+        expect(stateAfterSecondRoll.human.health).toEqual(7);
         expect(stateAfterSecondRoll.human.lastHit).toEqual(3);
       });
 
       test('monster health stays the same, since it was hit last time', () => {
-        expect(stateAfterSecondRoll.monster.health).toEqual(94);
+        expect(stateAfterSecondRoll.monster.health).toEqual(8);
         expect(stateAfterSecondRoll.monster.lastHit).toEqual(0);
       });
     });
@@ -121,13 +121,13 @@ describe('Each roll may cost some health', () => {
 });
 
 describe('Detects when game is ended', () => {
-  describe('after nine big wins', () => {
+  describe('after nine small wins', () => {
     const actions: BattleAction[] = Array(9).fill({
       actionType: 'DiceRolled',
       human1: 6,
       human2: 6,
-      monster1: 1,
-      monster2: 1,
+      monster1: 6,
+      monster2: 5,
     });
 
     const finalState = actions.reduce<Battle>(battleReducer, initialBattleState);
@@ -159,8 +159,8 @@ describe('Resets battle state', () => {
 
   test('It is back to initial state', () => {
     expect(finalState?.battleInProgress).toBeTruthy();
-    expect(finalState?.human.health).toBe(100);
-    expect(finalState?.monster.health).toBe(100);
+    expect(finalState?.human.health).toBe(10);
+    expect(finalState?.monster.health).toBe(10);
   });
 });
 

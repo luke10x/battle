@@ -24,8 +24,8 @@ export type BattleAction =
   | { actionType: 'Reset' };
 
 export const initialBattleState = {
-  human: { health: 100, lastHit: 0 },
-  monster: { health: 100, lastHit: 0 },
+  human: { health: 10, lastHit: 0 },
+  monster: { health: 10, lastHit: 0 },
   battleInProgress: true,
 };
 
