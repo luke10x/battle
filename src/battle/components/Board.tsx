@@ -1,7 +1,7 @@
-import React, { useReducer, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { battleReducer, Action, Face, Battle, initialState } from '../state';
+import { Battle } from '../state';
 
 import { Player } from './Player';
 
@@ -49,43 +49,37 @@ const Wrapper = styled.div`
   }
 `;
 
-const getRandom = (): Face => {
-  return (Math.floor(Math.random() * 6) + 1) as Face;
-};
+interface BoardProps {
+  battle: Battle;
+  onRoll: () => void;
+  onReset: () => void;
+}
 
-export const Board: React.FC = () => {
-  const [state, dispatch] = useReducer<React.Reducer<Battle, Action>>(
-    battleReducer,
-    initialState,
-  );
+export const Board: React.FC<BoardProps> = (props: BoardProps) => {
+  const { battle, onRoll, onReset } = props;
   const [rolling, setRolling] = useState(false);
 
   const handleRoll = () => {
     setRolling(true);
     setTimeout(() => {
-      const action: Action = {
-        actionType: 'DiceRolled',
-        human: [getRandom(), getRandom()],
-        monster: [getRandom(), getRandom()],
-      };
       setRolling(false);
-      dispatch(action);
+      onRoll();
     }, 1000);
   };
 
   const handleReset = () => {
-    dispatch({ actionType: 'Reset' });
+    onReset();
   };
 
-  const rollButton = state.inProgress;
-  const resetButton = !state.inProgress;
-  const won = state.monster.health === 0;
-  const lost = state.human.health === 0;
+  const rollButton = battle.inProgress;
+  const resetButton = !battle.inProgress;
+  const won = battle.monster.health === 0;
+  const lost = battle.human.health === 0;
   return (
     <Wrapper>
       <div className="content">
-        <Player title="HUMAN" rolling={rolling} fighter={state.human} />
-        <Player title="MONSTER" rolling={rolling} fighter={state.monster} />
+        <Player title="HUMAN" rolling={rolling} fighter={battle.human} />
+        <Player title="MONSTER" rolling={rolling} fighter={battle.monster} />
       </div>
       <div className="footer">
         {resetButton && <button onClick={handleReset}>Reset</button>}
