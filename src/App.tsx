@@ -1,12 +1,12 @@
 import React from 'react';
 import './App.css';
 
-import { BattleComponent } from './battle/components/BattleComponent';
+import { Board } from './battle/components/Board';
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <BattleComponent />
+      <Board />
     </div>
   );
 };

@@ -1,14 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Player } from '../state';
+import { Fighter } from '../state';
 
-import { DamageComponent } from './DamageComponent';
-import { DiceComponent } from './DiceComponent';
+import { Damage } from './Damage';
+import { Die } from './Die';
 
-interface PlayerComponentProps {
+interface PlayerProps {
   title: string;
-  player: Player;
+  fighter: Fighter;
   rolling: boolean;
 }
 const Hearth: React.FC = () => (
@@ -37,7 +37,7 @@ const Styled = styled.div`
       border: 0;
     }
   }
-  .dice-set {
+  .dice {
     font-size: 2em;
     display: flex;
     justify-content: space-around;
@@ -49,28 +49,19 @@ const Styled = styled.div`
   }
 `;
 
-export const PlayerComponent: React.FC<PlayerComponentProps> = (
-  props: PlayerComponentProps,
-) => {
+export const Player: React.FC<PlayerProps> = (props: PlayerProps) => {
   return (
     <Styled>
       <div className="details">
         <div>{props.title}</div>
         <div>
-          <Hearth /> {props.player.health}{' '}
-          <DamageComponent player={props.player} />
+          <Hearth /> {props.fighter.health} <Damage fighter={props.fighter} />
         </div>
       </div>
-      {props.player.lastRoll && (
-        <div className="dice-set">
-          <DiceComponent
-            rolling={props.rolling}
-            lastRolled={props.player.lastRoll[0]}
-          />
-          <DiceComponent
-            rolling={props.rolling}
-            lastRolled={props.player.lastRoll[1]}
-          />
+      {props.fighter.lastRoll && (
+        <div className="dice">
+          <Die rolling={props.rolling} lastRolled={props.fighter.lastRoll[0]} />
+          <Die rolling={props.rolling} lastRolled={props.fighter.lastRoll[1]} />
         </div>
       )}
     </Styled>

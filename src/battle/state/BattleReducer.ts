@@ -1,36 +1,22 @@
-export type Dice = 1 | 2 | 3 | 4 | 5 | 6;
-
-export type DiceSet = [Dice, Dice];
-
-export interface Player {
-  health: number;
-  lastRoll?: DiceSet;
-  lastHit: number;
-}
-
-export interface Battle {
-  human: Player;
-  monster: Player;
-  battleInProgress: boolean;
-}
+import { Battle, Roll } from './Battle';
 
 export type Action =
   | {
       actionType: 'DiceRolled';
-      human: DiceSet;
-      monster: DiceSet;
+      human: Roll;
+      monster: Roll;
     }
   | { actionType: 'Reset' };
 
-export const initialBattleState = {
+export const initialState = {
   human: { health: 10, lastHit: 0 },
   monster: { health: 10, lastHit: 0 },
-  battleInProgress: true,
+  inProgress: true,
 };
 
 export const battleReducer = (oldState: Battle, action: Action): Battle => {
   if (action.actionType === 'Reset') {
-    return initialBattleState;
+    return initialState;
   }
 
   if (action.actionType === 'DiceRolled') {
@@ -66,7 +52,7 @@ export const battleReducer = (oldState: Battle, action: Action): Battle => {
 
     const battleInProgress = human.health > 0 && monster.health > 0;
 
-    return { human, monster, battleInProgress };
+    return { human, monster, inProgress: battleInProgress };
   }
 
   return oldState;

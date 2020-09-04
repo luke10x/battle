@@ -1,15 +1,9 @@
 import React, { useReducer, useState } from 'react';
 import styled from 'styled-components';
 
-import {
-  battleReducer,
-  Action,
-  Dice,
-  Battle,
-  initialBattleState,
-} from '../state';
+import { battleReducer, Action, Face, Battle, initialState } from '../state';
 
-import { PlayerComponent } from './PlayerComponent';
+import { Player } from './Player';
 
 const breakpointSmall = '620px';
 const Wrapper = styled.div`
@@ -55,14 +49,14 @@ const Wrapper = styled.div`
   }
 `;
 
-const getRandom = (): Dice => {
-  return (Math.floor(Math.random() * 6) + 1) as Dice;
+const getRandom = (): Face => {
+  return (Math.floor(Math.random() * 6) + 1) as Face;
 };
 
-export const BattleComponent: React.FC = () => {
+export const Board: React.FC = () => {
   const [state, dispatch] = useReducer<React.Reducer<Battle, Action>>(
     battleReducer,
-    initialBattleState,
+    initialState,
   );
   const [rolling, setRolling] = useState(false);
 
@@ -83,19 +77,15 @@ export const BattleComponent: React.FC = () => {
     dispatch({ actionType: 'Reset' });
   };
 
-  const rollButton = state.battleInProgress;
-  const resetButton = !state.battleInProgress;
+  const rollButton = state.inProgress;
+  const resetButton = !state.inProgress;
   const won = state.monster.health === 0;
   const lost = state.human.health === 0;
   return (
     <Wrapper>
       <div className="content">
-        <PlayerComponent title="HUMAN" rolling={rolling} player={state.human} />
-        <PlayerComponent
-          title="MONSTER"
-          rolling={rolling}
-          player={state.monster}
-        />
+        <Player title="HUMAN" rolling={rolling} fighter={state.human} />
+        <Player title="MONSTER" rolling={rolling} fighter={state.monster} />
       </div>
       <div className="footer">
         {resetButton && <button onClick={handleReset}>Reset</button>}
