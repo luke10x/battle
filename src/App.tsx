@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 
-import { BattleComponent } from './battle/BattleComponent';
+import { BattleComponent } from './battle/components/BattleComponent';
 
 const App: React.FC = () => {
   return (

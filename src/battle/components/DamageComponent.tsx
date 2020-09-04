@@ -1,7 +1,7 @@
 import React from 'react';
 
 import styled, { keyframes } from 'styled-components';
-import { Player } from './BattleReducer';
+import { Player } from '../state/BattleReducer';
 
 interface DamageComponentProps {
   player: Player;

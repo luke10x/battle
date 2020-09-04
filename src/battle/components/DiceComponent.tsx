@@ -1,4 +1,4 @@
-import { Dice } from './BattleReducer';
+import { Dice } from '../state/BattleReducer';
 import { useEffect, useState } from 'react';
 import React from 'react';
 
@@ -38,7 +38,7 @@ export const DiceComponent: React.FC<DiceComponentProps> = (props: DiceComponent
     return <span>{getDiceChar(dice)}</span>;
   }
   if (props.lastRolled === undefined) {
-    return <span> </span>;
+    return <span></span>;
   }
   return <span>{getDiceChar(props.lastRolled)}</span>;
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Player } from './BattleReducer';
+import { Player } from '../state/BattleReducer';
 import { DamageComponent } from './DamageComponent';
 import { DiceComponent } from './DiceComponent';
 import styled from 'styled-components';
@@ -14,6 +14,7 @@ const Hearth: React.FC = () => (
     🖤
   </span>
 );
+
 const breakpointSmall = '620px';
 const Styled = styled.div`
   flex: 0 0 7em;
@@ -34,7 +35,7 @@ const Styled = styled.div`
       border: 0;
     }
   }
-  .dice {
+  .dice-set {
     font-size: 2em;
     display: flex;
     justify-content: space-around;
@@ -56,7 +57,7 @@ export const PlayerComponent: React.FC<PlayerComponentProps> = (props: PlayerCom
         </div>
       </div>
       {props.player.lastRoll && (
-        <div className="dice">
+        <div className="dice-set">
           <DiceComponent rolling={props.rolling} lastRolled={props.player.lastRoll[0]} />
           <DiceComponent rolling={props.rolling} lastRolled={props.player.lastRoll[1]} />
         </div>
