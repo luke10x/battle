@@ -1,53 +1,9 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 
 import { Battle } from '../state';
 
 import { Player } from './Player';
-
-const breakpointSmall = '620px';
-const Wrapper = styled.div`
-  font-size: 1.5em;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  .content {
-    flex: 1;
-    display: flex;
-    justify-content: space-around;
-    @media (max-width: ${breakpointSmall}) {
-      flex-direction: column;
-      justify-content: flex-start;
-    }
-  }
-  .footer {
-    flex: 0;
-    padding: 0.5em;
-    & > * {
-      padding: 1em;
-      margin: 0px auto;
-      box-sizing: border-box;
-      width: 50%;
-      @media (max-width: ${breakpointSmall}) {
-        width: 100%;
-      }
-    }
-    button {
-      font-size: 1em;
-      border: 5px solid black;
-      background: pink;
-      &.disabled {
-        opacity: 0.3;
-      }
-    }
-    .banner.won {
-      color: green;
-    }
-    .banner.lost {
-      color: red;
-    }
-  }
-`;
+import { StyledBoard } from './Styled';
 
 interface BoardProps {
   battle: Battle;
@@ -76,7 +32,7 @@ export const Board: React.FC<BoardProps> = (props: BoardProps) => {
   const won = battle.monster.health === 0;
   const lost = battle.human.health === 0;
   return (
-    <Wrapper>
+    <StyledBoard>
       <div className="content">
         <Player title="HUMAN" rolling={rolling} fighter={battle.human} />
         <Player title="MONSTER" rolling={rolling} fighter={battle.monster} />
@@ -94,6 +50,6 @@ export const Board: React.FC<BoardProps> = (props: BoardProps) => {
           </button>
         )}
       </div>
-    </Wrapper>
+    </StyledBoard>
   );
 };

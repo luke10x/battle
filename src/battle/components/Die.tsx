@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-
 import { Face } from '../state';
 
 interface DieProps {
@@ -7,7 +6,7 @@ interface DieProps {
   lastRolled: Face | undefined;
 }
 
-export const numberToDiceRoll = (num: number): Face => {
+const numberToFace = (num: number): Face => {
   if (1 < num || num < 6) {
     return num as Face;
   }
@@ -29,7 +28,7 @@ export const Die: React.FC<DieProps> = (props: DieProps) => {
   useEffect(() => {
     if (props.rolling) {
       setTimeout(() => {
-        setRollingFace(numberToDiceRoll((rollingFace % 6) + 1));
+        setRollingFace(numberToFace((rollingFace % 6) + 1));
       }, 100);
     }
   }, [rollingFace, props.rolling]);
