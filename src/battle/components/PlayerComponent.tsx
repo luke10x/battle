@@ -49,19 +49,28 @@ const Styled = styled.div`
   }
 `;
 
-export const PlayerComponent: React.FC<PlayerComponentProps> = (props: PlayerComponentProps) => {
+export const PlayerComponent: React.FC<PlayerComponentProps> = (
+  props: PlayerComponentProps,
+) => {
   return (
     <Styled>
       <div className="details">
         <div>{props.title}</div>
         <div>
-          <Hearth /> {props.player.health} <DamageComponent player={props.player} />
+          <Hearth /> {props.player.health}{' '}
+          <DamageComponent player={props.player} />
         </div>
       </div>
       {props.player.lastRoll && (
         <div className="dice-set">
-          <DiceComponent rolling={props.rolling} lastRolled={props.player.lastRoll[0]} />
-          <DiceComponent rolling={props.rolling} lastRolled={props.player.lastRoll[1]} />
+          <DiceComponent
+            rolling={props.rolling}
+            lastRolled={props.player.lastRoll[0]}
+          />
+          <DiceComponent
+            rolling={props.rolling}
+            lastRolled={props.player.lastRoll[1]}
+          />
         </div>
       )}
     </Styled>

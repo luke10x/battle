@@ -1,7 +1,13 @@
 import React, { useReducer, useState } from 'react';
 import styled from 'styled-components';
 
-import { battleReducer, Action, Dice, Battle, initialBattleState } from '../state';
+import {
+  battleReducer,
+  Action,
+  Dice,
+  Battle,
+  initialBattleState,
+} from '../state';
 
 import { PlayerComponent } from './PlayerComponent';
 
@@ -54,7 +60,10 @@ const getRandom = (): Dice => {
 };
 
 export const BattleComponent: React.FC = () => {
-  const [state, dispatch] = useReducer<React.Reducer<Battle, Action>>(battleReducer, initialBattleState);
+  const [state, dispatch] = useReducer<React.Reducer<Battle, Action>>(
+    battleReducer,
+    initialBattleState,
+  );
   const [rolling, setRolling] = useState(false);
 
   const handleRoll = () => {
@@ -82,14 +91,21 @@ export const BattleComponent: React.FC = () => {
     <Wrapper>
       <div className="content">
         <PlayerComponent title="HUMAN" rolling={rolling} player={state.human} />
-        <PlayerComponent title="MONSTER" rolling={rolling} player={state.monster} />
+        <PlayerComponent
+          title="MONSTER"
+          rolling={rolling}
+          player={state.monster}
+        />
       </div>
       <div className="footer">
         {resetButton && <button onClick={handleReset}>Reset</button>}
         {won && <div className="banner won">HUMAN WON</div>}
         {lost && <div className="banner lost">MONSTER WON</div>}
         {rollButton && (
-          <button className={rolling ? 'disabled' : ''} onClick={rolling ? undefined : handleRoll}>
+          <button
+            className={rolling ? 'disabled' : ''}
+            onClick={rolling ? undefined : handleRoll}
+          >
             Roll!
           </button>
         )}

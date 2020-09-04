@@ -1,4 +1,9 @@
-import { battleReducer, Action, Battle, initialBattleState } from './BattleReducer';
+import {
+  battleReducer,
+  Action,
+  Battle,
+  initialBattleState,
+} from './BattleReducer';
 
 describe('Each roll may cost some health', () => {
   describe('When they roll equal', () => {
@@ -7,7 +12,10 @@ describe('Each roll may cost some health', () => {
       human: [6, 5],
       monster: [3, 2],
     };
-    const stateAfterEqualRoll = battleReducer(initialBattleState, diceRolledAction);
+    const stateAfterEqualRoll = battleReducer(
+      initialBattleState,
+      diceRolledAction,
+    );
 
     test('human health stays the same', () => {
       expect(stateAfterEqualRoll.human.health).toEqual(10);
@@ -38,15 +46,24 @@ describe('Each roll may cost some health', () => {
         9,
         1,
       ],
-    ])('human health is hit', (diceRolledAction, expectedHealth, expectedLastHit) => {
-      const stateAfterFirstRoll = battleReducer(initialBattleState, diceRolledAction as Action);
+    ])(
+      'human health is hit',
+      (diceRolledAction, expectedHealth, expectedLastHit) => {
+        const stateAfterFirstRoll = battleReducer(
+          initialBattleState,
+          diceRolledAction as Action,
+        );
 
-      expect(stateAfterFirstRoll.human.health).toEqual(expectedHealth);
-      expect(stateAfterFirstRoll.human.lastHit).toEqual(expectedLastHit);
-    });
+        expect(stateAfterFirstRoll.human.health).toEqual(expectedHealth);
+        expect(stateAfterFirstRoll.human.lastHit).toEqual(expectedLastHit);
+      },
+    );
 
     test('Monster health stays same', () => {
-      const stateAfterFirstRoll = battleReducer(initialBattleState, diceRolledAction);
+      const stateAfterFirstRoll = battleReducer(
+        initialBattleState,
+        diceRolledAction,
+      );
 
       expect(stateAfterFirstRoll.monster.health).toEqual(10);
       expect(stateAfterFirstRoll.monster.lastHit).toEqual(0);
@@ -59,7 +76,10 @@ describe('Each roll may cost some health', () => {
       human: [6, 5],
       monster: [5, 4],
     };
-    const stateAfterFirstRoll = battleReducer(initialBattleState, diceRolledAction);
+    const stateAfterFirstRoll = battleReducer(
+      initialBattleState,
+      diceRolledAction,
+    );
 
     test('human health stays the same', () => {
       expect(stateAfterFirstRoll.human.health).toEqual(10);
@@ -77,7 +97,10 @@ describe('Each roll may cost some health', () => {
         monster: [3, 3],
       };
 
-      const stateAfterSecondRoll = battleReducer(stateAfterFirstRoll, diceRolledAction);
+      const stateAfterSecondRoll = battleReducer(
+        stateAfterFirstRoll,
+        diceRolledAction,
+      );
 
       test('human health stays the same still', () => {
         expect(stateAfterSecondRoll.human.health).toEqual(10);
@@ -94,7 +117,10 @@ describe('Each roll may cost some health', () => {
         human: [1, 1],
         monster: [3, 2],
       };
-      const stateAfterSecondRoll = battleReducer(stateAfterFirstRoll, diceRolledAction);
+      const stateAfterSecondRoll = battleReducer(
+        stateAfterFirstRoll,
+        diceRolledAction,
+      );
       test('human health is hit this time', () => {
         expect(stateAfterSecondRoll.human.health).toEqual(7);
         expect(stateAfterSecondRoll.human.lastHit).toEqual(3);
@@ -116,7 +142,10 @@ describe('Detects when game is ended', () => {
       monster: [6, 5],
     });
 
-    const finalState = actions.reduce<Battle>(battleReducer, initialBattleState);
+    const finalState = actions.reduce<Battle>(
+      battleReducer,
+      initialBattleState,
+    );
 
     expect(finalState?.battleInProgress).toBeTruthy();
   });
@@ -127,14 +156,20 @@ describe('Detects when game is ended', () => {
       monster: [1, 1],
     });
 
-    const finalState = actions.reduce<Battle>(battleReducer, initialBattleState);
+    const finalState = actions.reduce<Battle>(
+      battleReducer,
+      initialBattleState,
+    );
 
     expect(finalState?.battleInProgress).toBeFalsy();
   });
 });
 
 describe('Resets battle state', () => {
-  const actions: Action[] = [{ actionType: 'DiceRolled', human: [6, 6], monster: [1, 1] }, { actionType: 'Reset' }];
+  const actions: Action[] = [
+    { actionType: 'DiceRolled', human: [6, 6], monster: [1, 1] },
+    { actionType: 'Reset' },
+  ];
 
   const finalState = actions.reduce<Battle>(battleReducer, initialBattleState);
 

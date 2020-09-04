@@ -22,10 +22,14 @@ const StyledSpan = styled.span`
   animation: ${rotate} 0.8s linear;
 `;
 
-export const DamageComponent: React.FC<DamageComponentProps> = (props: DamageComponentProps) => {
+export const DamageComponent: React.FC<DamageComponentProps> = (
+  props: DamageComponentProps,
+) => {
   if (props.player.lastHit === 0) {
     return <></>;
   }
 
-  return <StyledSpan key={props.player.health}>-{props.player.lastHit}</StyledSpan>;
+  return (
+    <StyledSpan key={props.player.health}>-{props.player.lastHit}</StyledSpan>
+  );
 };

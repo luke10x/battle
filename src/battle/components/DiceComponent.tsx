@@ -24,7 +24,9 @@ const getDiceChar = (diceRoll: Dice) => {
   return String.fromCharCode(CHAR_BEFORE_DICE + diceRoll);
 };
 
-export const DiceComponent: React.FC<DiceComponentProps> = (props: DiceComponentProps) => {
+export const DiceComponent: React.FC<DiceComponentProps> = (
+  props: DiceComponentProps,
+) => {
   const [dice, setDice] = useState<Dice>(1);
   useEffect(() => {
     if (props.rolling) {
