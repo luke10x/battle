@@ -1,8 +1,11 @@
+export type Dice = 1 | 2 | 3 | 4 | 5 | 6;
+
+export type DiceSet = [Dice, Dice];
+
 export interface Player {
   health: number;
+  lastRoll?: DiceSet;
   lastHit: number;
-  dice1?: DiceRoll;
-  dice2?: DiceRoll;
 }
 
 export interface Battle {
@@ -11,15 +14,11 @@ export interface Battle {
   battleInProgress: boolean;
 }
 
-export type DiceRoll = 1 | 2 | 3 | 4 | 5 | 6;
-
-export type BattleAction =
+export type Action =
   | {
       actionType: 'DiceRolled';
-      human1: DiceRoll;
-      human2: DiceRoll;
-      monster1: DiceRoll;
-      monster2: DiceRoll;
+      human: DiceSet;
+      monster: DiceSet;
     }
   | { actionType: 'Reset' };
 
@@ -29,14 +28,14 @@ export const initialBattleState = {
   battleInProgress: true,
 };
 
-export const battleReducer = (oldState: Battle, action: BattleAction): Battle => {
+export const battleReducer = (oldState: Battle, action: Action): Battle => {
   if (action.actionType === 'Reset') {
     return initialBattleState;
   }
 
   if (action.actionType === 'DiceRolled') {
-    const humanScore = action.human1 + action.human2;
-    const monsterScore = action.monster1 + action.monster2;
+    const humanScore = action.human[0] + action.human[1];
+    const monsterScore = action.monster[0] + action.monster[1];
     const damage = Math.abs(humanScore - monsterScore);
 
     const monster =
@@ -44,14 +43,12 @@ export const battleReducer = (oldState: Battle, action: BattleAction): Battle =>
         ? {
             health: Math.max(0, oldState.monster.health - damage),
             lastHit: damage,
-            dice1: action.monster1,
-            dice2: action.monster2,
+            lastRoll: action.monster,
           }
         : {
             ...oldState.monster,
             lastHit: 0,
-            dice1: action.monster1,
-            dice2: action.monster2,
+            lastRoll: action.monster,
           };
 
     const human =
@@ -59,14 +56,12 @@ export const battleReducer = (oldState: Battle, action: BattleAction): Battle =>
         ? {
             health: Math.max(0, oldState.human.health - damage),
             lastHit: damage,
-            dice1: action.human1,
-            dice2: action.human2,
+            lastRoll: action.human,
           }
         : {
             ...oldState.human,
             lastHit: 0,
-            dice1: action.human1,
-            dice2: action.human2,
+            lastRoll: action.human,
           };
 
     const battleInProgress = human.health > 0 && monster.health > 0;

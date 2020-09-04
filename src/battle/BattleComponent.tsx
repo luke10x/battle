@@ -1,7 +1,7 @@
 import React, { useReducer, useState } from 'react';
 import styled from 'styled-components';
 
-import { battleReducer, BattleAction, DiceRoll, Battle, initialBattleState } from './BattleReducer';
+import { battleReducer, Action, Dice, Battle, initialBattleState } from './BattleReducer';
 
 import { DiceComponent } from './DiceComponent';
 import { DamageComponent } from './DamageComponent';
@@ -77,23 +77,21 @@ const Wrapper = styled.div`
   }
 `;
 
-const getRandom = (): DiceRoll => {
-  return (Math.floor(Math.random() * 6) + 1) as DiceRoll;
+const getRandom = (): Dice => {
+  return (Math.floor(Math.random() * 6) + 1) as Dice;
 };
 
 export const BattleComponent: React.FC = () => {
-  const [state, dispatch] = useReducer<React.Reducer<Battle, BattleAction>>(battleReducer, initialBattleState);
+  const [state, dispatch] = useReducer<React.Reducer<Battle, Action>>(battleReducer, initialBattleState);
   const [rolling, setRolling] = useState(false);
 
   const handleRoll = () => {
     setRolling(true);
     setTimeout(() => {
-      const action: BattleAction = {
+      const action: Action = {
         actionType: 'DiceRolled',
-        human1: getRandom(),
-        human2: getRandom(),
-        monster1: getRandom(),
-        monster2: getRandom(),
+        human: [getRandom(), getRandom()],
+        monster: [getRandom(), getRandom()],
       };
       setRolling(false);
       dispatch(action);
@@ -121,10 +119,12 @@ export const BattleComponent: React.FC = () => {
               {state.human.health} <DamageComponent player={state.human} />
             </div>
           </div>
-          <div className="dice">
-            <DiceComponent rolling={rolling} lastRolled={state.human.dice1} />
-            <DiceComponent rolling={rolling} lastRolled={state.human.dice2} />
-          </div>
+          {state.human.lastRoll && (
+            <div className="dice">
+              <DiceComponent rolling={rolling} lastRolled={state.human.lastRoll[0]} />
+              <DiceComponent rolling={rolling} lastRolled={state.human.lastRoll[1]} />
+            </div>
+          )}
         </div>
         <div className="player">
           <div className="details">
@@ -136,10 +136,12 @@ export const BattleComponent: React.FC = () => {
               {state.monster.health} <DamageComponent player={state.monster} />
             </div>
           </div>
-          <div className="dice">
-            <DiceComponent rolling={rolling} lastRolled={state.monster.dice1} />
-            <DiceComponent rolling={rolling} lastRolled={state.monster.dice2} />
-          </div>
+          {state.monster.lastRoll && (
+            <div className="dice">
+              <DiceComponent rolling={rolling} lastRolled={state.monster.lastRoll[0]} />
+              <DiceComponent rolling={rolling} lastRolled={state.monster.lastRoll[1]} />
+            </div>
+          )}
         </div>
       </div>
       <div className="footer">

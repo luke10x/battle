@@ -1,21 +1,21 @@
-import { DiceRoll } from './BattleReducer';
+import { Dice } from './BattleReducer';
 import { useEffect, useState } from 'react';
 import React from 'react';
 
 interface DiceComponentProps {
   rolling: boolean;
-  lastRolled: DiceRoll | undefined;
+  lastRolled: Dice | undefined;
 }
 
-export const numberToDiceRoll = (num: number): DiceRoll => {
+export const numberToDiceRoll = (num: number): Dice => {
   if (1 < num || num < 6) {
-    return num as DiceRoll;
+    return num as Dice;
   }
 
   throw new Error('Number is out of range for DiceRoll');
 };
 
-const getDiceChar = (diceRoll: DiceRoll) => {
+const getDiceChar = (diceRoll: Dice) => {
   if (!diceRoll) {
     return '';
   }
@@ -25,7 +25,7 @@ const getDiceChar = (diceRoll: DiceRoll) => {
 };
 
 export const DiceComponent: React.FC<DiceComponentProps> = (props: DiceComponentProps) => {
-  const [dice, setDice] = useState<DiceRoll>(1);
+  const [dice, setDice] = useState<Dice>(1);
   useEffect(() => {
     if (props.rolling) {
       setTimeout(() => {
