@@ -36,6 +36,9 @@ const Wrapper = styled.div`
       font-size: 1em;
       border: 5px solid black;
       background: pink;
+      &.disabled {
+        opacity: 0.3;
+      }
     }
     .banner.won {
       color: green;
@@ -71,7 +74,7 @@ export const BattleComponent: React.FC = () => {
     dispatch({ actionType: 'Reset' });
   };
 
-  const rollButton = state.battleInProgress && !rolling;
+  const rollButton = state.battleInProgress;
   const resetButton = !state.battleInProgress;
   const won = state.monster.health === 0;
   const lost = state.human.health === 0;
@@ -85,7 +88,11 @@ export const BattleComponent: React.FC = () => {
         {resetButton && <button onClick={handleReset}>Reset</button>}
         {won && <div className="banner won">HUMAN WON</div>}
         {lost && <div className="banner lost">MONSTER WON</div>}
-        {rollButton && <button onClick={handleRoll}>Roll!</button>}
+        {rollButton && (
+          <button className={rolling ? 'disabled' : ''} onClick={rolling ? undefined : handleRoll}>
+            Roll!
+          </button>
+        )}
       </div>
     </Wrapper>
   );
