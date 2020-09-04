@@ -3,8 +3,7 @@ import styled from 'styled-components';
 
 import { battleReducer, Action, Dice, Battle, initialBattleState } from './BattleReducer';
 
-import { DiceComponent } from './DiceComponent';
-import { DamageComponent } from './DamageComponent';
+import { PlayerComponent } from './PlayerComponent';
 
 const breakpointSmall = '620px';
 const Wrapper = styled.div`
@@ -19,36 +18,6 @@ const Wrapper = styled.div`
     @media (max-width: ${breakpointSmall}) {
       flex-direction: column;
       justify-content: flex-start;
-    }
-    .player {
-      flex: 0 0 7em;
-      margin: 0.5em;
-      display: flex;
-      flex-direction: column;
-      @media (max-width: ${breakpointSmall}) {
-        flex: 0 1;
-        border: 5px dotted black;
-        flex-direction: row;
-      }
-      .details {
-        border: 5px dotted black;
-        text-align: left;
-        padding: 1em;
-        @media (max-width: ${breakpointSmall}) {
-          flex: 1 0;
-          border: 0;
-        }
-      }
-      .dice {
-        font-size: 2em;
-        display: flex;
-        justify-content: space-around;
-        @media (max-width: ${breakpointSmall}) {
-          flex: 0 0 1.5em;
-          line-height: 0.5em;
-          flex-direction: column;
-        }
-      }
     }
   }
   .footer {
@@ -109,40 +78,8 @@ export const BattleComponent: React.FC = () => {
   return (
     <Wrapper>
       <div className="content">
-        <div className="player">
-          <div className="details">
-            <div>HUMAN</div>
-            <div>
-              <span role="img" aria-label="health">
-                🖤
-              </span>{' '}
-              {state.human.health} <DamageComponent player={state.human} />
-            </div>
-          </div>
-          {state.human.lastRoll && (
-            <div className="dice">
-              <DiceComponent rolling={rolling} lastRolled={state.human.lastRoll[0]} />
-              <DiceComponent rolling={rolling} lastRolled={state.human.lastRoll[1]} />
-            </div>
-          )}
-        </div>
-        <div className="player">
-          <div className="details">
-            <div>MONSTER</div>
-            <div>
-              <span role="img" aria-label="health">
-                🖤
-              </span>{' '}
-              {state.monster.health} <DamageComponent player={state.monster} />
-            </div>
-          </div>
-          {state.monster.lastRoll && (
-            <div className="dice">
-              <DiceComponent rolling={rolling} lastRolled={state.monster.lastRoll[0]} />
-              <DiceComponent rolling={rolling} lastRolled={state.monster.lastRoll[1]} />
-            </div>
-          )}
-        </div>
+        <PlayerComponent title="HUMAN" rolling={rolling} player={state.human} />
+        <PlayerComponent title="MONSTER" rolling={rolling} player={state.monster} />
       </div>
       <div className="footer">
         {resetButton && <button onClick={handleReset}>Reset</button>}
