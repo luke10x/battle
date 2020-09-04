@@ -1,8 +1,10 @@
 import React from 'react';
-import { Player } from '../state/BattleReducer';
+import styled from 'styled-components';
+
+import { Player } from '../state';
+
 import { DamageComponent } from './DamageComponent';
 import { DiceComponent } from './DiceComponent';
-import styled from 'styled-components';
 
 interface PlayerComponentProps {
   title: string;

@@ -1,7 +1,7 @@
 import React, { useReducer, useState } from 'react';
 import styled from 'styled-components';
 
-import { battleReducer, Action, Dice, Battle, initialBattleState } from '../state/BattleReducer';
+import { battleReducer, Action, Dice, Battle, initialBattleState } from '../state';
 
 import { PlayerComponent } from './PlayerComponent';
 

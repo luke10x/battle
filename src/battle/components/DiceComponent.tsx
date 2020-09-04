@@ -1,6 +1,6 @@
-import { Dice } from '../state/BattleReducer';
-import { useEffect, useState } from 'react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+
+import { Dice } from '../state';
 
 interface DiceComponentProps {
   rolling: boolean;
