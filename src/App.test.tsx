@@ -2,8 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+test('renders "Roll" button', () => {
   const { getByText } = render(<App />);
-  const linkElement = getByText(/Roll/i);
-  expect(linkElement).toBeInTheDocument();
+  expect(getByText(/roll!/i)).toBeInTheDocument();
 });
