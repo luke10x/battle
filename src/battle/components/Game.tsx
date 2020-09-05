@@ -1,5 +1,5 @@
-import React, { useReducer } from 'react';
-import { battleReducer, Action, Face, Battle, initialState } from '../state';
+import React from 'react';
+import { Action, Face, useBattleReducer } from '../state';
 import { Board } from './Board';
 
 const getRandom = (): Face => {
@@ -7,10 +7,7 @@ const getRandom = (): Face => {
 };
 
 export const Game: React.FC = () => {
-  const [battle, dispatch] = useReducer<React.Reducer<Battle, Action>>(
-    battleReducer,
-    initialState,
-  );
+  const [battle, dispatch] = useBattleReducer();
 
   const handleRoll = () => {
     const action: Action = {

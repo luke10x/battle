@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Face } from '../state';
+import { setTimeoutWrapper } from '../util/SetTimeout';
 
 interface DieProps {
   rolling: boolean;
@@ -27,7 +28,7 @@ export const Die: React.FC<DieProps> = (props: DieProps) => {
   const [rollingFace, setRollingFace] = useState<Face>(1);
   useEffect(() => {
     if (props.rolling) {
-      setTimeout(() => {
+      setTimeoutWrapper(() => {
         setRollingFace(numberToFace((rollingFace % 6) + 1));
       }, 100);
     }
