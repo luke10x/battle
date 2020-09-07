@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 import { Board } from './Board';
 import { initialState, Battle } from '../state';
@@ -12,9 +12,7 @@ const defaultProps = {
 };
 
 describe('render', () => {
-  beforeEach(cleanup);
-
-  describe('render buttons', () => {
+  describe('buttons', () => {
     describe('battle is in progress', () => {
       const battle = {
         ...defaultBattle,
@@ -78,8 +76,8 @@ describe('render', () => {
     const monsterWins = /monster won/i;
 
     describe('both fighters alive', () => {
-      const { queryByText } = render(<Board {...defaultProps} />);
       test('no banner is shown', () => {
+        const { queryByText } = render(<Board {...defaultProps} />);
         expect(queryByText(humanWins)).not.toBeInTheDocument();
         expect(queryByText(monsterWins)).not.toBeInTheDocument();
       });
