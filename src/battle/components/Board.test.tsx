@@ -119,6 +119,6 @@ describe('render', () => {
   test('player names', () => {
     const { queryByText } = render(<Board {...defaultProps} />);
     expect(queryByText(/human/i)).toBeInTheDocument();
-    expect(queryByText(/human/i)).toBeInTheDocument();
+    expect(queryByText(/monster/i)).toBeInTheDocument();
   });
 });

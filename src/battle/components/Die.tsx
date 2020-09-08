@@ -35,10 +35,20 @@ export const Die: React.FC<DieProps> = (props: DieProps) => {
   }, [rollingFace, props.rolling]);
 
   if (props.rolling) {
-    return <span>{faceToChar(rollingFace)}</span>;
+    return (
+      <span role="img" aria-label={faceToChar(props.lastRolled)}>
+        {faceToChar(rollingFace)}
+      </span>
+    );
   }
+
   if (props.lastRolled === undefined) {
     return <span></span>;
   }
-  return <span>{faceToChar(props.lastRolled)}</span>;
+
+  return (
+    <span role="img" aria-label={faceToChar(props.lastRolled)}>
+      {faceToChar(props.lastRolled)}
+    </span>
+  );
 };
