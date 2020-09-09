@@ -25,12 +25,10 @@ export const Player: React.FC<PlayerProps> = (props: PlayerProps) => {
           <Hearth /> {props.fighter.health} <Damage fighter={props.fighter} />
         </div>
       </div>
-      {props.fighter.lastRoll && (
-        <div className="dice">
-          <Die rolling={props.rolling} lastRolled={props.fighter.lastRoll[0]} />
-          <Die rolling={props.rolling} lastRolled={props.fighter.lastRoll[1]} />
-        </div>
-      )}
+      <div className="dice">
+        <Die rolling={props.rolling} lastRolled={props.fighter.lastRoll?.[0]} />
+        <Die rolling={props.rolling} lastRolled={props.fighter.lastRoll?.[1]} />
+      </div>
     </StyledPlayer>
   );
 };
