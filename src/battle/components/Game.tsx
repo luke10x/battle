@@ -1,5 +1,6 @@
 import React from 'react';
-import { Action, Face, useBattleReducer } from '../state';
+import { Action, Face } from '../state';
+import { useBattleReducer } from '../edge/UseBattleReducer';
 import { Board } from './Board';
 
 const getRandom = (): Face => {

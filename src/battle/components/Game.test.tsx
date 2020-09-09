@@ -3,8 +3,8 @@ import { render } from '@testing-library/react';
 import { Game } from './Game';
 import React from 'react';
 
-import { useBattleReducer } from '../state';
-jest.mock('../state');
+import { useBattleReducer } from '../edge/UseBattleReducer';
+jest.mock('../edge/UseBattleReducer');
 
 import { Board } from './Board';
 jest.mock('./Board');
