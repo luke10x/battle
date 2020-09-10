@@ -5,8 +5,8 @@ import { Player } from './Player';
 
 describe('props', () => {
   const fighter: Fighter = {
-    health: 99,
-    lastRoll: [1, 6],
+    health: 9,
+    lastRoll: [2, 3],
     lastHit: 0,
   };
   const props = {
@@ -22,20 +22,31 @@ describe('props', () => {
 
   test('fighter health', () => {
     const { queryByText } = render(<Player {...props} />);
-    expect(queryByText('99')).toBeInTheDocument();
+    expect(queryByText('9')).toBeInTheDocument();
   });
 
-  test('with last roll', () => {
+  test('show dice of lastRoll', () => {
     const { queryByText } = render(<Player {...props} />);
-    expect(queryByText('⚀')).toBeInTheDocument();
-    expect(queryByText('⚅')).toBeInTheDocument();
+    expect(queryByText('⚁')).toBeInTheDocument();
+    expect(queryByText('⚂')).toBeInTheDocument();
   });
 
-  test('without last roll', () => {
+  describe('before any roll is made', () => {
+    const fighterBeforeRolling = { health: 10, lastHit: 0 };
+
+    test('show no dice', () => {
+      const { queryByText } = render(
+        <Player {...props} fighter={fighterBeforeRolling} />,
+      );
+      expect(queryByText('⚁')).not.toBeInTheDocument();
+      expect(queryByText('⚂')).not.toBeInTheDocument();
+    });
+  });
+
+  test('display damage', async () => {
     const { queryByText } = render(
-      <Player {...props} fighter={{ health: 99, lastHit: 0 }} />,
+      <Player {...props} fighter={{ health: 9, lastHit: 1 }} />,
     );
-    expect(queryByText('⚀')).not.toBeInTheDocument();
-    expect(queryByText('⚅')).not.toBeInTheDocument();
+    expect(queryByText(/-1/i)).toBeInTheDocument();
   });
 });
