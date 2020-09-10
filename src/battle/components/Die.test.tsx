@@ -3,8 +3,8 @@ import { Die } from './Die';
 import { render } from '@testing-library/react';
 import { Face } from '../state';
 
-describe('render', () => {
-  const defaultProps = {
+describe('props', () => {
+  const props = {
     lastRolled: 1,
     rolling: false,
   };
@@ -18,16 +18,14 @@ describe('render', () => {
     [6 as Face, '⚅'],
   ])('last rolled value %p will render %p', (value: Face, result: string) => {
     const { queryByText, queryByRole } = render(
-      <Die {...defaultProps} lastRolled={value} />,
+      <Die {...props} lastRolled={value} />,
     );
     expect(queryByText(result)).toBeInTheDocument();
     expect(queryByRole('img')).toBeInTheDocument();
   });
 
   test('undefined last rolled will not render ARIA "img"', () => {
-    const { queryByRole } = render(
-      <Die {...defaultProps} lastRolled={undefined} />,
-    );
+    const { queryByRole } = render(<Die {...props} lastRolled={undefined} />);
     expect(queryByRole('img')).not.toBeInTheDocument();
   });
 });

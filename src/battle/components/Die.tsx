@@ -36,7 +36,7 @@ export const Die: React.FC<DieProps> = (props: DieProps) => {
 
   if (props.rolling) {
     return (
-      <span role="img" aria-label={faceToChar(props.lastRolled)}>
+      <span role="img" aria-label="rolling">
         {faceToChar(rollingFace)}
       </span>
     );
