@@ -1,11 +1,8 @@
 import React from 'react';
-import { Action, Face } from '../state';
-import { useBattleReducer } from '../edge/UseBattleReducer';
+import { useBattleReducer } from '../hooks/UseBattleReducer';
+import { generateRandom } from '../utils/GenerateRandom';
+import { Action } from '../state';
 import { Board } from './Board';
-
-const getRandom = (): Face => {
-  return (Math.floor(Math.random() * 6) + 1) as Face;
-};
 
 export const Game: React.FC = () => {
   const [battle, dispatch] = useBattleReducer();
@@ -13,8 +10,8 @@ export const Game: React.FC = () => {
   const handleRoll = () => {
     const action: Action = {
       actionType: 'DiceRolled',
-      human: [getRandom(), getRandom()],
-      monster: [getRandom(), getRandom()],
+      human: [generateRandom(), generateRandom()],
+      monster: [generateRandom(), generateRandom()],
     };
     dispatch(action);
   };

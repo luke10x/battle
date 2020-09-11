@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Battle } from '../state';
-import { setTimeoutWrapper } from '../edge/SetTimeout';
+import { setTimeoutWrapper } from '../utils/SetTimeout';
 import { Player } from './Player';
 import { StyledBoard } from './Styled';
 

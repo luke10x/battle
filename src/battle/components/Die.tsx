@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Face } from '../state';
-import { setTimeoutWrapper } from '../edge/SetTimeout';
+import { setTimeoutWrapper } from '../utils/SetTimeout';
 
 interface DieProps {
   rolling: boolean;
