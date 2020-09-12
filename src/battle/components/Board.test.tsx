@@ -1,14 +1,17 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 
 import { Board } from './Board';
 import { initialState, Battle } from '../state';
 
+import { setTimeoutWrapper } from '../utils/SetTimeout';
+jest.mock('../utils/SetTimeout');
+
 describe('props', () => {
   const props = {
     battle: initialState,
-    onRoll: jest.fn,
-    onReset: jest.fn,
+    onRoll: jest.fn(),
+    onReset: jest.fn(),
   };
 
   describe('battle is in progress', () => {
@@ -26,6 +29,21 @@ describe('props', () => {
       const { queryByRole } = render(<Board {...props} battle={battle} />);
 
       expect(queryByRole('button', { name: /reset/i })).not.toBeInTheDocument();
+    });
+
+    test('roll button calls onRoll prop', () => {
+      (setTimeoutWrapper as jest.Mock).mockImplementationOnce(
+        (callback: () => void) => {
+          callback();
+        },
+      );
+
+      const { getByRole } = render(<Board {...props} battle={battle} />);
+
+      const button = getByRole('button', { name: /roll/i });
+      fireEvent.click(button);
+
+      expect(props.onRoll).toHaveBeenCalled();
     });
   });
 
@@ -51,6 +69,15 @@ describe('props', () => {
       const { queryByRole } = render(<Board {...props} battle={battle} />);
 
       expect(queryByRole('button', { name: /reset/i })).toBeInTheDocument();
+    });
+
+    test('reset button calls onReset prop', () => {
+      const { getByRole } = render(<Board {...props} battle={battle} />);
+
+      const button = getByRole('button', { name: /reset/i });
+      fireEvent.click(button);
+
+      expect(props.onReset).toHaveBeenCalled();
     });
   });
 
