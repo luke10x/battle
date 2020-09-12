@@ -3,9 +3,11 @@ import { render, fireEvent } from '@testing-library/react';
 
 import { Board } from './Board';
 import { initialState, Battle } from '../state';
+
 import { act } from 'react-dom/test-utils';
 
 import { afterRolled } from '../utils/SetTimeout';
+import { barrier } from '../utils/Barrier';
 jest.mock('../utils/SetTimeout');
 
 describe('props', () => {
@@ -49,12 +51,11 @@ describe('props', () => {
     });
 
     test('roll button calls onRoll prop', async () => {
-      const queue: (() => void)[] = [];
-      const mutex = new Promise((resolve) => queue.push(resolve));
+      const [hold, release] = barrier();
 
       (afterRolled as jest.Mock).mockImplementation(
         async (callback: () => void) => {
-          await mutex;
+          await hold();
           act(callback);
         },
       );
@@ -65,11 +66,9 @@ describe('props', () => {
 
       expect(props.onRoll).not.toHaveBeenCalled();
 
-      await queue.shift()?.();
+      await release();
       expect(props.onRoll).toHaveBeenCalled();
     });
-
-
   });
 
   describe('battle is not in progress', () => {
