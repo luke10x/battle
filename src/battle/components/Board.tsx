@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Battle } from '../state';
-import { setTimeoutWrapper } from '../utils/SetTimeout';
+import { afterRolled } from '../utils/SetTimeout';
 import { Player } from './Player';
 import { StyledBoard } from './Styled';
 
@@ -16,10 +16,10 @@ export const Board: React.FC<BoardProps> = (props: BoardProps) => {
 
   const handleRoll = () => {
     setRolling(true);
-    setTimeoutWrapper(() => {
+    afterRolled(() => {
       setRolling(false);
       onRoll();
-    }, 1000);
+    });
   };
 
   const handleReset = () => {

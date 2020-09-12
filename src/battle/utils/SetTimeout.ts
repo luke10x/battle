@@ -5,3 +5,7 @@ export const setTimeoutWrapper = (
   console.log('fake set timeout');
   return setTimeout(handler, timeout);
 };
+
+export const afterRolled = (handler: () => void): number => {
+  return setTimeout(handler, 1000);
+};

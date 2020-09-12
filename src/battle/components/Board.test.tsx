@@ -3,8 +3,9 @@ import { render, fireEvent } from '@testing-library/react';
 
 import { Board } from './Board';
 import { initialState, Battle } from '../state';
+import { act } from 'react-dom/test-utils';
 
-import { setTimeoutWrapper } from '../utils/SetTimeout';
+import { afterRolled } from '../utils/SetTimeout';
 jest.mock('../utils/SetTimeout');
 
 describe('props', () => {
@@ -19,6 +20,7 @@ describe('props', () => {
       ...initialState,
       inProgress: true,
     };
+    afterEach(() => jest.resetAllMocks());
 
     test('shows "Roll" button', () => {
       const { queryByRole } = render(<Board {...props} battle={battle} />);
@@ -32,19 +34,42 @@ describe('props', () => {
     });
 
     test('roll button calls onRoll prop', () => {
-      (setTimeoutWrapper as jest.Mock).mockImplementationOnce(
+      (afterRolled as jest.Mock).mockImplementationOnce(
         (callback: () => void) => {
           callback();
         },
       );
 
-      const { getByRole } = render(<Board {...props} battle={battle} />);
+      const { getByRole } = render(<Board {...props} />);
 
       const button = getByRole('button', { name: /roll/i });
       fireEvent.click(button);
 
       expect(props.onRoll).toHaveBeenCalled();
     });
+
+    test('roll button calls onRoll prop', async () => {
+      const queue: (() => void)[] = [];
+      const mutex = new Promise((resolve) => queue.push(resolve));
+
+      (afterRolled as jest.Mock).mockImplementation(
+        async (callback: () => void) => {
+          await mutex;
+          act(callback);
+        },
+      );
+
+      const { getByRole } = render(<Board {...props} />);
+      const button = getByRole('button', { name: /roll/i });
+      fireEvent.click(button);
+
+      expect(props.onRoll).not.toHaveBeenCalled();
+
+      await queue.shift()?.();
+      expect(props.onRoll).toHaveBeenCalled();
+    });
+
+
   });
 
   describe('battle is not in progress', () => {
