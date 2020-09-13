@@ -6,7 +6,7 @@ import { initialState, Battle } from '../state';
 
 import { act } from 'react-dom/test-utils';
 
-import { afterRolled } from '../utils/SetTimeout';
+import { untilDiceRolled } from '../utils/SetTimeout';
 import { barrier } from '../utils/Barrier';
 jest.mock('../utils/SetTimeout');
 
@@ -35,30 +35,30 @@ describe('props', () => {
       expect(queryByRole('button', { name: /reset/i })).not.toBeInTheDocument();
     });
 
-    test('roll button calls onRoll prop', () => {
-      (afterRolled as jest.Mock).mockImplementationOnce(
-        (callback: () => void) => {
-          callback();
-        },
-      );
+    test('roll button calls onRoll propa', async () => {
+      const resolved = Promise.resolve();
+      (untilDiceRolled as jest.Mock).mockImplementationOnce(() => {
+        return resolved;
+      });
 
       const { getByRole } = render(<Board {...props} />);
 
       const button = getByRole('button', { name: /roll/i });
       fireEvent.click(button);
 
+      await act(async () => {
+        await resolved;
+      });
       expect(props.onRoll).toHaveBeenCalled();
     });
 
-    test('roll button calls onRoll prop', async () => {
+    test('roll button waits until rolled and calls onRoll', async () => {
       const [hold, release] = barrier();
 
-      (afterRolled as jest.Mock).mockImplementation(
-        async (callback: () => void) => {
-          await hold();
-          act(callback);
-        },
-      );
+      (untilDiceRolled as jest.Mock).mockImplementationOnce(async () => {
+        await hold();
+        return await Promise.resolve();
+      });
 
       const { getByRole } = render(<Board {...props} />);
       const button = getByRole('button', { name: /roll/i });
@@ -66,7 +66,7 @@ describe('props', () => {
 
       expect(props.onRoll).not.toHaveBeenCalled();
 
-      await release();
+      await act(async () => await release());
       expect(props.onRoll).toHaveBeenCalled();
     });
   });

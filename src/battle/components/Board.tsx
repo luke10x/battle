@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Battle } from '../state';
-import { afterRolled } from '../utils/SetTimeout';
+import { untilDiceRolled } from '../utils/SetTimeout';
 import { Player } from './Player';
 import { StyledBoard } from './Styled';
 
@@ -14,12 +14,11 @@ export const Board: React.FC<BoardProps> = (props: BoardProps) => {
   const { battle, onRoll, onReset } = props;
   const [rolling, setRolling] = useState(false);
 
-  const handleRoll = () => {
+  const handleRoll = async () => {
     setRolling(true);
-    afterRolled(() => {
-      setRolling(false);
-      onRoll();
-    });
+    await untilDiceRolled();
+    setRolling(false);
+    onRoll();
   };
 
   const handleReset = () => {

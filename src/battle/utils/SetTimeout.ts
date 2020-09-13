@@ -6,6 +6,6 @@ export const setTimeoutWrapper = (
   return setTimeout(handler, timeout);
 };
 
-export const afterRolled = (handler: () => void): number => {
-  return setTimeout(handler, 1000);
+export const untilDiceRolled = async (): Promise<void> => {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
 };
