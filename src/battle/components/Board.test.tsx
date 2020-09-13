@@ -5,9 +5,9 @@ import { Board } from './Board';
 import { initialState, Battle } from '../state';
 
 import { act } from 'react-dom/test-utils';
+import makeAsyncBarrier from 'async-barrier';
 
 import { untilDiceRolled } from '../utils/SetTimeout';
-import { barrier } from '../utils/Barrier';
 jest.mock('../utils/SetTimeout');
 
 describe('props', () => {
@@ -53,7 +53,7 @@ describe('props', () => {
     });
 
     test('roll button waits until rolled and calls onRoll', async () => {
-      const [hold, release] = barrier();
+      const hold = makeAsyncBarrier(2);
 
       (untilDiceRolled as jest.Mock).mockImplementationOnce(async () => {
         await hold();
@@ -66,7 +66,7 @@ describe('props', () => {
 
       expect(props.onRoll).not.toHaveBeenCalled();
 
-      await act(async () => await release());
+      await act(async () => await hold());
       expect(props.onRoll).toHaveBeenCalled();
     });
   });
