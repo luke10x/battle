@@ -27,16 +27,12 @@ const faceToChar = (face: Face | undefined) => {
 export const Die: React.FC<DieProps> = (props: DieProps) => {
   const [rollingFace, setRollingFace] = useState<Face>(1);
   useEffect(() => {
-    let subscribed = true;
-    if (subscribed && props.rolling) {
+    if (props.rolling) {
       (async () => {
         await untilFaceTurned();
         setRollingFace(numberToFace((rollingFace % 6) + 1));
       })();
     }
-    return () => {
-      subscribed = false;
-    };
   }, [rollingFace, props.rolling]);
 
   if (props.rolling) {
