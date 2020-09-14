@@ -1,6 +1,6 @@
 import React from 'react';
 import { useBattleReducer } from '../hooks/UseBattleReducer';
-import { generateRandom } from '../utils/GenerateRandom';
+import { generateRandom } from '../utils/Random';
 import { Action } from '../state';
 import { Board } from './Board';
 

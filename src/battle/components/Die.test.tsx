@@ -2,9 +2,9 @@ import React from 'react';
 import { Die } from './Die';
 import { render, act } from '@testing-library/react';
 import { Face } from '../state';
-import { untilFaceTurned } from '../utils/SetTimeout';
+import { untilFaceTurned } from '../utils/Timer';
 
-jest.mock('../utils/SetTimeout');
+jest.mock('../utils/Timer');
 
 describe('props', () => {
   const props = {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Face } from '../state';
-import { untilFaceTurned } from '../utils/SetTimeout';
+import { untilFaceTurned } from '../utils/Timer';
 
 interface DieProps {
   rolling: boolean;

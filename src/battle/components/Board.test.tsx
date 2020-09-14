@@ -1,14 +1,11 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-
+import { render, fireEvent, act } from '@testing-library/react';
 import { Board } from './Board';
 import { initialState, Battle } from '../state';
-
-import { act } from 'react-dom/test-utils';
 import makeAsyncBarrier from 'async-barrier';
+import { untilDiceRolled, untilFaceTurned } from '../utils/Timer';
 
-import { untilDiceRolled, untilFaceTurned } from '../utils/SetTimeout';
-jest.mock('../utils/SetTimeout');
+jest.mock('../utils/Timer');
 
 describe('props', () => {
   const props = {

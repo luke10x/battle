@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Battle } from '../state';
-import { untilDiceRolled } from '../utils/SetTimeout';
+import { untilDiceRolled } from '../utils/Timer';
 import { Player } from './Player';
 import { StyledBoard } from './Styled';
 

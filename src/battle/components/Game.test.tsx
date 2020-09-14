@@ -9,8 +9,8 @@ jest.mock('../hooks/UseBattleReducer');
 import { Board } from './Board';
 jest.mock('./Board');
 
-import { generateRandom } from '../utils/GenerateRandom';
-jest.mock('../utils/GenerateRandom');
+import { generateRandom } from '../utils/Random';
+jest.mock('../utils/Random');
 
 describe('battle states', () => {
   const initialBattle: Battle = {
