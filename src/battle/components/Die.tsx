@@ -28,12 +28,11 @@ export const Die: React.FC<DieProps> = (props: DieProps) => {
   const [rollingFace, setRollingFace] = useState<Face>(1);
   useEffect(() => {
     let subscribed = true;
-    if (props.rolling) {
-      untilFaceTurned().then(() => {
-        if (subscribed) {
-          setRollingFace(numberToFace((rollingFace % 6) + 1));
-        }
-      });
+    if (subscribed && props.rolling) {
+      (async () => {
+        await untilFaceTurned();
+        setRollingFace(numberToFace((rollingFace % 6) + 1));
+      })();
     }
     return () => {
       subscribed = false;
