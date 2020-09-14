@@ -1,8 +1,9 @@
 import React from 'react';
-import { render, fireEvent, act } from '@testing-library/react';
-import { Board } from './Board';
-import { initialState, Battle } from '../state';
+import { act, fireEvent, render } from '@testing-library/react';
 import makeAsyncBarrier from 'async-barrier';
+
+import { Board } from './Board';
+import { Battle, initialState } from '../state';
 import { untilDiceRolled, untilFaceTurned } from '../utils/Timer';
 
 jest.mock('../utils/Timer');

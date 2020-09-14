@@ -1,8 +1,9 @@
 import React from 'react';
+
+import { Board } from './Board';
+import { Action } from '../state';
 import { useBattleReducer } from '../hooks/UseBattleReducer';
 import { generateRandom } from '../utils/Random';
-import { Action } from '../state';
-import { Board } from './Board';
 
 export const Game: React.FC = () => {
   const [battle, dispatch] = useBattleReducer();

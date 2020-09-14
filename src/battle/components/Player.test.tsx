@@ -1,7 +1,8 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { Fighter } from '../state';
+
 import { Player } from './Player';
+import { Fighter } from '../state';
 
 describe('props', () => {
   const fighter: Fighter = {

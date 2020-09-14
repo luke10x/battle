@@ -1,6 +1,7 @@
 import React from 'react';
-import { Fighter } from '../state';
+
 import { StyledDamage } from './Styled';
+import { Fighter } from '../state';
 
 interface DamageProps {
   fighter: Fighter;

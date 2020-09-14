@@ -1,6 +1,7 @@
 import React from 'react';
-import { Die } from './Die';
 import { render, act } from '@testing-library/react';
+
+import { Die } from './Die';
 import { Face } from '../state';
 import { untilFaceTurned } from '../utils/Timer';
 

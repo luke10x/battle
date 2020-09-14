@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Battle } from '../state';
-import { untilDiceRolled } from '../utils/Timer';
+
 import { Player } from './Player';
 import { StyledBoard } from './Styled';
+import { Battle } from '../state';
+import { untilDiceRolled } from '../utils/Timer';
 
 interface BoardProps {
   battle: Battle;

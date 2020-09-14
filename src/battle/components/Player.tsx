@@ -1,8 +1,9 @@
 import React from 'react';
-import { Fighter } from '../state';
+
 import { Damage } from './Damage';
 import { Die } from './Die';
 import { StyledPlayer } from './Styled';
+import { Fighter } from '../state';
 
 interface PlayerProps {
   title: string;

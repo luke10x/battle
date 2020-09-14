@@ -1,15 +1,14 @@
-import { Battle } from '../state';
-import { render } from '@testing-library/react';
-import { Game } from './Game';
 import React from 'react';
-
-import { useBattleReducer } from '../hooks/UseBattleReducer';
-jest.mock('../hooks/UseBattleReducer');
+import { render } from '@testing-library/react';
 
 import { Board } from './Board';
-jest.mock('./Board');
-
+import { Game } from './Game';
+import { Battle } from '../state';
+import { useBattleReducer } from '../hooks/UseBattleReducer';
 import { generateRandom } from '../utils/Random';
+
+jest.mock('./Board');
+jest.mock('../hooks/UseBattleReducer');
 jest.mock('../utils/Random');
 
 describe('battle states', () => {
