@@ -56,7 +56,6 @@ describe('props', () => {
 
     test('disable roll button after clicking on it until the dice is rolled', async () => {
       const hold = makeAsyncBarrier(2);
-
       (untilDiceRolled as jest.Mock).mockImplementationOnce(async () => {
         await hold();
         return await Promise.resolve();
@@ -64,12 +63,48 @@ describe('props', () => {
 
       const { getByRole } = render(<Board {...props} />);
       const button = getByRole('button', { name: /roll/i });
-      fireEvent.click(button);
+      expect(button.classList).not.toContain('disabled');
 
+      fireEvent.click(button);
+      expect(button.classList).toContain('disabled');
+
+      await act(async () => await hold());
+      expect(button.classList).not.toContain('disabled');
+    });
+
+    test('call onRoll only after waiting until dice rolled', async () => {
+      const hold = makeAsyncBarrier(2);
+      (untilDiceRolled as jest.Mock).mockImplementationOnce(async () => {
+        await hold();
+        return await Promise.resolve();
+      });
+
+      const { getByRole } = render(<Board {...props} />);
+      const button = getByRole('button', { name: /roll/i });
+
+      fireEvent.click(button);
       expect(props.onRoll).not.toHaveBeenCalled();
 
       await act(async () => await hold());
       expect(props.onRoll).toHaveBeenCalled();
+    });
+
+    test('rolling property is drilled until dice', async () => {
+      const hold = makeAsyncBarrier(2);
+      (untilDiceRolled as jest.Mock).mockImplementationOnce(async () => {
+        await hold();
+        return await Promise.resolve();
+      });
+
+      const { getByRole, queryAllByLabelText } = render(<Board {...props} />);
+      const button = getByRole('button', { name: /roll/i });
+      expect(queryAllByLabelText('rolling').length).toEqual(0);
+
+      fireEvent.click(button);
+      expect(queryAllByLabelText('rolling').length).toEqual(4);
+
+      await act(async () => await hold());
+      expect(queryAllByLabelText('rolling').length).toEqual(0);
     });
   });
 
