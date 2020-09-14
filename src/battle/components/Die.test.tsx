@@ -24,7 +24,7 @@ describe('props', () => {
       <Die {...props} lastRolled={value} />,
     );
     expect(queryByText(result)).toBeInTheDocument();
-    expect(queryByRole('img')).toBeInTheDocument();
+    expect(queryByRole('img', { name: value.toString() })).toBeInTheDocument();
   });
 
   test('undefined last rolled will not render ARIA "img"', () => {
@@ -63,5 +63,20 @@ describe('props', () => {
 
     await act(async () => queue.shift()?.());
     expect(queryByText('⚀')).toBeInTheDocument();
+  });
+
+  test('rolling dice has appropriate aria image label', async () => {
+    const props = {
+      lastRolled: 3 as Face,
+      rolling: true,
+    };
+
+    const resolved = Promise.resolve();
+    (untilFaceTurned as jest.Mock).mockImplementationOnce(() => resolved);
+
+    const { queryByRole } = render(<Die {...props} />);
+    await act(async () => resolved);
+
+    expect(queryByRole('img', { name: /rolling/i })).toBeInTheDocument();
   });
 });

@@ -48,7 +48,7 @@ export const Die: React.FC<DieProps> = (props: DieProps) => {
   }
 
   return (
-    <span role="img" aria-label={faceToChar(props.lastRolled)}>
+    <span role="img" aria-label={props.lastRolled.toString()}>
       {faceToChar(props.lastRolled)}
     </span>
   );
