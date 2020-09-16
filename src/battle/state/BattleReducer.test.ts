@@ -1,4 +1,4 @@
-import { battleReducer, Action, initialState } from './BattleReducer';
+import { handleAction, Action, initialState } from './ActionHandler';
 import { Battle } from './Battle';
 
 describe('Each roll may cost some health', () => {
@@ -8,7 +8,7 @@ describe('Each roll may cost some health', () => {
       human: [6, 5],
       monster: [3, 2],
     };
-    const stateAfterEqualRoll = battleReducer(initialState, diceRolledAction);
+    const stateAfterEqualRoll = handleAction(initialState, diceRolledAction);
 
     test('human health stays the same', () => {
       expect(stateAfterEqualRoll.human.health).toEqual(10);
@@ -42,7 +42,7 @@ describe('Each roll may cost some health', () => {
     ])(
       'human health is hit',
       (diceRolledAction, expectedHealth, expectedLastHit) => {
-        const stateAfterFirstRoll = battleReducer(
+        const stateAfterFirstRoll = handleAction(
           initialState,
           diceRolledAction as Action,
         );
@@ -53,7 +53,7 @@ describe('Each roll may cost some health', () => {
     );
 
     test('Monster health stays same', () => {
-      const stateAfterFirstRoll = battleReducer(initialState, diceRolledAction);
+      const stateAfterFirstRoll = handleAction(initialState, diceRolledAction);
 
       expect(stateAfterFirstRoll.monster.health).toEqual(10);
       expect(stateAfterFirstRoll.monster.lastHit).toEqual(0);
@@ -66,7 +66,7 @@ describe('Each roll may cost some health', () => {
       human: [6, 5],
       monster: [5, 4],
     };
-    const stateAfterFirstRoll = battleReducer(initialState, diceRolledAction);
+    const stateAfterFirstRoll = handleAction(initialState, diceRolledAction);
 
     test('human health stays the same', () => {
       expect(stateAfterFirstRoll.human.health).toEqual(10);
@@ -84,7 +84,7 @@ describe('Each roll may cost some health', () => {
         monster: [3, 3],
       };
 
-      const stateAfterSecondRoll = battleReducer(
+      const stateAfterSecondRoll = handleAction(
         stateAfterFirstRoll,
         diceRolledAction,
       );
@@ -104,7 +104,7 @@ describe('Each roll may cost some health', () => {
         human: [1, 1],
         monster: [3, 2],
       };
-      const stateAfterSecondRoll = battleReducer(
+      const stateAfterSecondRoll = handleAction(
         stateAfterFirstRoll,
         diceRolledAction,
       );
@@ -129,7 +129,7 @@ describe('Detects when game is ended', () => {
       monster: [6, 5],
     });
 
-    const finalState = actions.reduce<Battle>(battleReducer, initialState);
+    const finalState = actions.reduce<Battle>(handleAction, initialState);
 
     expect(finalState?.inProgress).toBeTruthy();
   });
@@ -140,7 +140,7 @@ describe('Detects when game is ended', () => {
       monster: [1, 1],
     });
 
-    const finalState = actions.reduce<Battle>(battleReducer, initialState);
+    const finalState = actions.reduce<Battle>(handleAction, initialState);
 
     expect(finalState?.inProgress).toBeFalsy();
   });
@@ -152,7 +152,7 @@ describe('Resets battle state', () => {
     { actionType: 'Reset' },
   ];
 
-  const finalState = actions.reduce<Battle>(battleReducer, initialState);
+  const finalState = actions.reduce<Battle>(handleAction, initialState);
 
   test('It is back to initial state', () => {
     expect(finalState?.inProgress).toBeTruthy();
@@ -168,7 +168,7 @@ describe('Cannot go lower than zero health', () => {
     monster: [1, 1],
   });
 
-  const finalState = actions.reduce<Battle>(battleReducer, initialState);
+  const finalState = actions.reduce<Battle>(handleAction, initialState);
 
   test('Monster health stays at least zero', () => {
     expect(finalState?.monster.health).toBe(0);
@@ -182,7 +182,7 @@ describe('Stores last rolled dice in the state', () => {
     monster: [3, 4],
   };
 
-  const finalState = battleReducer(initialState, action);
+  const finalState = handleAction(initialState, action);
 
   test('Persons keep rolled dice', () => {
     expect(finalState.human.lastRoll?.[0]).toBe(1);
@@ -204,7 +204,7 @@ describe('Forgets last hit on next roll', () => {
     monster: [3, 4],
   };
 
-  const finalState = battleReducer(state, action);
+  const finalState = handleAction(state, action);
 
   test('human forgets its last hit', () => {
     expect(finalState.human.lastHit).toBe(0);

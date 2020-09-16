@@ -14,7 +14,7 @@ export const initialState = {
   inProgress: true,
 };
 
-export const battleReducer = (oldState: Battle, action: Action): Battle => {
+export const handleAction = (oldState: Battle, action: Action): Battle => {
   if (action.actionType === 'Reset') {
     return initialState;
   }
